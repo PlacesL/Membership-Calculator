@@ -1,10 +1,630 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Membership Calculator</title>
-  </head>
-  <body>
-    <h1>Welcome to Membership Calculator</h1>
-    <p>Your GitHub Pages site is now live!</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membership Savings Calculator</title>
+ 
+  <style>
+
+    body {
+
+      font-family: 'Segoe UI', sans-serif;
+
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+
+      margin: 0;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      min-height: 100vh;
+
+      color: #fff;
+
+    }
+ 
+    .container {
+
+      background: #ffffff;
+
+      color: #333;
+
+      padding: 10px;
+
+      border-radius: 20px;
+
+      width: 400px;
+
+      max-width: calc(100% - 40px);
+
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+      text-align: center;
+
+    }
+ 
+    h1 {
+
+      margin-bottom: 5px;
+
+      color: #ff7e5f;
+
+    }
+ 
+    h2 {
+
+      margin-top: 0;
+
+      font-size: 16px;
+
+      color: #888;
+
+      font-weight: normal;
+
+    }
+ 
+    p.subtitle {
+
+      font-size: 14px;
+
+      color: #777;
+
+      margin-bottom: 20px;
+
+    }
+ 
+    label {
+
+      text-align: left;
+
+      display: block;
+
+      margin-top: 15px;
+
+      font-weight: 600;
+
+    }
+ 
+    select {
+
+      width: 100%;
+
+      padding: 10px;
+
+      margin-top: 5px;
+
+      border-radius: 10px;
+
+      border: 1px solid #ccc;
+
+      font-size: 14px;
+
+      box-sizing: border-box;
+
+    }
+ 
+    button {
+
+      width: 100%;
+
+      margin-top: 20px;
+
+      padding: 14px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+
+      color: white;
+
+      font-size: 16px;
+
+      cursor: pointer;
+
+      transition: 0.3s;
+
+    }
+ 
+    button:hover {
+
+      transform: translateY(-2px);
+
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+
+    }
+ 
+    .join-btn {
+
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+
+      margin-top: 10px;
+
+    }
+ 
+    .result {
+
+  margin-top: 6px;
+
+  padding: 6px;
+
+  border-radius: 15px;
+
+  background: #fff3e6;
+
+}
+ 
+    .saving {
+
+      font-size: 22px;
+
+      font-weight: bold;
+
+      margin-top: 10px;
+
+    }
+ 
+    .positive {
+
+      color: #1aa34a;
+
+    }
+ 
+    .negative {
+
+      color: #d93025;
+
+    }
+ 
+    .recommend {
+
+      margin-top: 8px;
+
+      font-weight: bold;
+
+      font-size: 16px;
+
+    }
+ 
+    .joining-fee {
+
+      font-size: 13px;
+
+      color: #777;
+
+      margin-top: -5px;
+
+    }
+ 
+    .note {
+
+      margin-top: 10px;
+
+      font-size: 13px;
+
+      color: #666;
+
+    }
+</style>
+</head>
+ 
+<body>
+ 
+<div class="container">
+ 
+  <h1>Membership Calculator</h1>
+<h2>Bulmershe Leisure Centre</h2>
+<p class="subtitle">Find the best value for your visits</p>
+ 
+  <label>Age Group</label>
+<select id="age">
+<option value="" disabled selected>Please select</option>
+<option value="junior">11-15</option>
+<option value="teen">16-18</option>
+<option value="young">19-25</option>
+<option value="adult">26-64</option>
+<option value="senior">65+</option>
+</select>
+ 
+  <label>Activity</label>
+<select id="activity">
+<option value="" disabled selected>Please select</option>
+<option value="gym">Gym</option>
+<option value="class">Fitness Classes</option>
+<option value="swim">Swimming</option>
+<option value="aqua">Aqua Fit</option>
+<option value="health">Health Suite</option>
+<option value="hcom">HCOM Class</option>
+</select>
+ 
+  <label>Times per week</label>
+<select id="visits">
+<option value="" disabled selected>Please select</option>
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+</select>
+ 
+  <button onclick="calculate()">Calculate</button>
+ 
+  <div class="result" id="result" style="display: none;"></div>
+ 
+  <button
+
+    class="join-btn"
+
+    onclick="window.open('https://placesleisure.gladstonego.cloud/memberships?siteId=195', '_blank')">
+
+    Join Now
+</button>
+ 
+  <p class="note">Or come to reception to sign up</p>
+ 
+</div>
+ 
+<script>
+ 
+function calculate() {
+ 
+  let age = document.getElementById("age").value;
+
+  let activity = document.getElementById("activity").value;
+
+  let visits = document.getElementById("visits").value;
+ 
+  if (!age || !activity || !visits) {
+
+    alert("Please select all options before calculating");
+
+    return;
+
+  }
+ 
+  visits = parseInt(visits);
+ 
+  let price = 0;
+ 
+  // -----------------------------
+
+  // PAY AS YOU GO PRICING
+
+  // -----------------------------
+ 
+  if (activity === "swim") {
+ 
+    if (age === "junior") {
+
+      price = 4.85;
+
+    }
+
+    else if (age === "senior") {
+
+      price = 4.30;
+
+    }
+
+    else {
+
+      price = 7.05;
+
+    }
+ 
+  }
+ 
+  else if (activity === "gym") {
+ 
+    if (age === "junior") {
+
+      price = 7.70;
+
+    }
+
+    else if (age === "senior") {
+
+      price = 7.70;
+
+    }
+
+    else {
+
+      price = 13.65;
+
+    }
+ 
+  }
+ 
+  else if (activity === "class") {
+ 
+    if (age === "junior") {
+
+      alert("Fitness classes are not available for this age group");
+
+      return;
+
+    }
+ 
+    price = (age === "senior") ? 6.20 : 11.05;
+ 
+  }
+ 
+  else if (activity === "aqua") {
+ 
+    if (age === "junior") {
+
+      alert("Aqua Fit is not available for this age group");
+
+      return;
+
+    }
+ 
+    price = (age === "senior") ? 6.20 : 9.55;
+ 
+  }
+ 
+  else if (activity === "health") {
+ 
+    if (age === "junior") {
+
+      alert("Health Suite is only available for ages 16+");
+
+      return;
+
+    }
+ 
+    price = 25;
+ 
+  }
+ 
+  else if (activity === "hcom") {
+ 
+    if (age === "junior" || age === "teen") {
+
+      alert("HCOM Classes are only available for ages 19+");
+
+      return;
+
+    }
+ 
+    price = 7.20;
+ 
+  }
+ 
+ 
+  // -----------------------------
+
+  // MONTHLY PAYG COST
+
+  // -----------------------------
+ 
+  let monthly = price * visits * 4;
+ 
+ 
+  // -----------------------------
+
+  // DEFAULT MEMBERSHIPS
+
+  // -----------------------------
+ 
+  let membership = 60;
+
+  let name = "Premium Membership";
+ 
+  if (age === "senior") {
+
+    membership = 51;
+
+    name = "Premium Concession Membership";
+
+  }
+ 
+  else if (age === "young") {
+
+    membership = 45;
+
+    name = "Premium 19-25 Membership";
+
+  }
+ 
+  else if (age === "teen") {
+
+    membership = 35;
+
+    name = "Premium 16-18 Membership";
+
+  }
+ 
+  else if (age === "junior") {
+
+    membership = 24;
+
+    name = "Junior 11-15 Membership";
+
+  }
+ 
+ 
+  let bestPrice = membership;
+
+  let bestName = name;
+ 
+ 
+  // -----------------------------
+
+  // SWIM ONLY MEMBERSHIP
+
+  // -----------------------------
+ 
+  if (activity === "swim") {
+ 
+    const swimOnlyPrice = 30;
+ 
+    if (swimOnlyPrice < bestPrice) {
+
+      bestPrice = swimOnlyPrice;
+
+      bestName = "Swim Only Membership";
+
+    }
+ 
+  }
+ 
+ 
+  // -----------------------------
+
+  // HEALTH SUITE MEMBERSHIPS
+
+  // -----------------------------
+ 
+  if (activity === "health") {
+ 
+    if (age === "teen" || age === "young") {
+
+      bestPrice = 56;
+
+      bestName = "Premium+ 16-25";
+
+    }
+ 
+    else if (age === "adult") {
+
+      bestPrice = 75;
+
+      bestName = "Premium+";
+
+    }
+ 
+    else if (age === "senior") {
+
+      bestPrice = 63.50;
+
+      bestName = "Concession Premium+";
+
+    }
+ 
+  }
+ 
+ 
+  // -----------------------------
+
+  // HCOM MEMBERSHIP
+
+  // -----------------------------
+ 
+  if (activity === "hcom") {
+ 
+    bestPrice = 42;
+
+    bestName = "HCOM Membership";
+ 
+  }
+ 
+ 
+  // -----------------------------
+
+  // ONE-TIME JOINING FEE
+
+  // -----------------------------
+ 
+  let joiningFee = 30;
+ 
+  if (bestName === "Premium 16-18 Membership") {
+
+    joiningFee = 25;
+
+  }
+ 
+  else if (bestName === "Junior 11-15 Membership") {
+
+    joiningFee = 20;
+
+  }
+ 
+  else if (bestName === "Swim Only Membership") {
+
+    joiningFee = 20;
+
+  }
+ 
+  else if (bestName === "HCOM Membership") {
+
+    joiningFee = 0;
+
+  }
+ 
+ 
+  // -----------------------------
+
+  // SAVINGS CALCULATION
+
+  // -----------------------------
+ 
+  let savings = monthly - bestPrice;
+ 
+ 
+  let recommendation = savings > 0
+
+    ? "💡 " + bestName + " is the best option"
+
+    : "💡 Pay as you go is cheaper";
+ 
+ 
+  // -----------------------------
+
+  // DISPLAY RESULT
+
+  // -----------------------------
+ 
+  let result = document.getElementById("result");
+ 
+  result.style.display = "block";
+ 
+  result.innerHTML = `
+<p>
+<strong>Monthly PAYG:</strong>
+
+      £${monthly.toFixed(2)}
+</p>
+ 
+    <p>
+<strong>${bestName}:</strong>
+
+      £${bestPrice.toFixed(2)}
+</p>
+ 
+    <p class="joining-fee">
+
+      One time joining fee: £${joiningFee.toFixed(2)}
+</p>
+ 
+    <p class="saving ${savings >= 0 ? 'positive' : 'negative'}">
+
+      ${savings >= 0 ? 'You Save' : 'You Lose'}
+
+      £${Math.abs(savings).toFixed(2)}
+</p>
+ 
+    <p class="recommend">
+
+      ${recommendation}
+</p>
+
+  `;
+ 
+}
+ 
+</script>
+ 
+</body>
 </html>
+GladstoneGo
+ 

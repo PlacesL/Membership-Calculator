@@ -6,6 +6,10 @@
   <title>Membership Savings Calculator</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #ff7e5f, #feb47b);
@@ -14,55 +18,83 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      padding: 20px 0;
       color: #fff;
     }
 
     .container {
-      background: #ffffff;
+      background: #fff;
       color: #333;
-      padding: 10px;
-      border-radius: 20px;
-      width: 400px;
-      max-width: calc(100% - 40px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      padding: 22px;
+      border-radius: 22px;
+      width: 420px;
+      max-width: calc(100% - 30px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       text-align: center;
     }
 
     h1 {
-      margin-bottom: 5px;
+      margin: 0 0 6px;
       color: #ff7e5f;
+      font-size: 27px;
     }
 
     h2 {
-      margin-top: 0;
+      margin: 0;
       font-size: 16px;
       color: #888;
       font-weight: normal;
     }
 
-    p.subtitle {
+    .subtitle {
       font-size: 14px;
       color: #777;
-      margin-bottom: 20px;
+      margin: 12px 0 22px;
+      line-height: 1.5;
     }
 
     label {
       text-align: left;
       display: block;
-      margin-top: 15px;
+      margin-top: 18px;
+      margin-bottom: 7px;
       font-weight: 600;
+      font-size: 14px;
+      color: #444;
     }
 
     select {
+      appearance: none;
+      -webkit-appearance: none;
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
+      padding: 14px 42px 14px 14px;
+      border-radius: 12px;
+      border: 1px solid #e2d7d2;
       font-size: 14px;
-      box-sizing: border-box;
+      font-family: inherit;
+      color: #383838;
+      background-color: #fffaf7;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff7e5f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select:hover {
+      border-color: #ff9b7e;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #ff7e5f;
+      box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.17);
+    }
+
+    select option {
       background: #fff;
       color: #333;
+      padding: 10px;
     }
 
     button {
@@ -72,15 +104,22 @@
       border: none;
       border-radius: 12px;
       background: linear-gradient(135deg, #ff7e5f, #feb47b);
-      color: white;
+      color: #fff;
+      font-family: inherit;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      transition: 0.3s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #333;
+      outline-offset: 3px;
     }
 
     .join-btn {
@@ -89,15 +128,21 @@
     }
 
     .back-btn {
-      background: #777;
-      margin-top: 10px;
+      background: #f2efed;
+      color: #555;
+      margin-top: 12px;
     }
 
     .result {
-      margin-top: 6px;
-      padding: 6px;
+      margin-top: 14px;
+      padding: 12px;
       border-radius: 15px;
       background: #fff3e6;
+      overflow-wrap: anywhere;
+    }
+
+    .result p {
+      line-height: 1.5;
     }
 
     .saving {
@@ -127,64 +172,109 @@
     }
 
     .note {
-      margin-top: 10px;
+      margin-top: 12px;
       font-size: 13px;
-      color: #666;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    .pool-note,
+    .message-note {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: left;
     }
 
     .pool-note {
-      margin-top: 12px;
-      padding: 10px;
-      background: #fff3e6;
-      border-radius: 10px;
+      background: #fff0e8;
       color: #a54122;
-      font-size: 13px;
-      line-height: 1.5;
+      border: 1px solid #ffd5c3;
+    }
+
+    .message-note {
+      background: #fff3e6;
+      color: #a54122;
+      border: 1px solid #ffd5c3;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .selection-heading {
+      margin-top: 24px;
+      font-size: 14px;
+      color: #777;
     }
 
     [hidden] {
       display: none !important;
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <main class="container">
 
-    <!-- SITE SELECTION SCREEN -->
-    <div id="siteScreen">
+    <!-- STEP 1: SELECT A LEISURE CENTRE -->
+    <section id="siteScreen">
       <h1>Membership Calculator</h1>
       <h2>Choose Your Leisure Centre</h2>
-      <p class="subtitle">Select your preferred site to get started</p>
+
+      <p class="subtitle">
+        Select your preferred leisure centre to get started.
+      </p>
 
       <label for="site">Leisure Centre</label>
-      <select id="site" onchange="selectSite()">
-        <option value="" selected disabled>Please select</option>
+      <select id="site">
+        <option value="" selected disabled>Please select a site</option>
         <option value="Bulmershe Leisure Centre">Bulmershe Leisure Centre</option>
         <option value="Wokingham Leisure Centre">Wokingham Leisure Centre</option>
         <option value="Loddon Valley Leisure Centre">Loddon Valley Leisure Centre</option>
-        <option value="Arbofield Leisure Centre">Arbofield Leisure Centre</option>
+        <option value="Arborfield Leisure Centre">Arborfield Leisure Centre</option>
         <option value="Ryeish Green Leisure Centre">Ryeish Green Leisure Centre</option>
       </select>
 
-      <!-- Only shown for Arbofield and Ryeish Green -->
+      <!-- STEP 2: SELECT MEMBERSHIP TYPE -->
       <div id="membershipTypeSection" hidden>
+        <p class="selection-heading">
+          Now choose your membership type.
+        </p>
+
         <label for="membershipType">Membership Type</label>
-        <select id="membershipType" onchange="selectMembershipType()">
-          <option value="" selected disabled>Please select</option>
+        <select id="membershipType">
+          <option value="" selected disabled>Please select membership type</option>
+          <option value="site" id="siteOnlyOption">Site Only</option>
           <option value="multi">Multi Site</option>
-          <option value="site">Site Only</option>
+          <option value="national">National Access</option>
         </select>
+
+        <p class="note" id="siteOnlyNote" hidden>
+          Site Only is not available at this leisure centre.
+          Please choose Multi Site or National Access.
+        </p>
       </div>
-    </div>
+    </section>
 
-    <!-- MAIN CALCULATOR SCREEN -->
-    <div id="calculatorScreen" hidden>
-
+    <!-- MAIN CALCULATOR -->
+    <section id="calculatorScreen" hidden>
       <h1>Membership Calculator</h1>
-      <h2 id="centreTitle">Bulmershe Leisure Centre</h2>
-      <p class="subtitle">Find the best value for your visits</p>
+      <h2 id="centreTitle">Leisure Centre</h2>
+      <p class="subtitle" id="membershipSubtitle">
+        Find the best value for your visits.
+      </p>
 
       <label for="age">Age Group</label>
       <select id="age">
@@ -201,8 +291,8 @@
         <option value="" selected disabled>Please select</option>
         <option value="gym">Gym</option>
         <option value="class">Fitness Classes</option>
-        <option value="swim" class="waterActivity">Swimming</option>
-        <option value="aqua" class="waterActivity">Aqua Fit</option>
+        <option value="swim">Swimming</option>
+        <option value="aqua">Aqua Fit</option>
         <option value="health">Health Suite</option>
         <option value="hcom">HCOM Class</option>
       </select>
@@ -219,140 +309,222 @@
         <option value="7">7</option>
       </select>
 
-      <button type="button" onclick="calculate()">Calculate</button>
+      <button type="button" id="calculateButton">Calculate</button>
 
-      <div class="result" id="result" hidden></div>
+      <div class="result" id="result" hidden aria-live="polite"></div>
 
-      <!-- Pool information shown when Swim Only is recommended -->
-      <div id="poolNote" class="pool-note" hidden>
-        Please note: Arbofield Leisure Centre and Ryeish Green Leisure Centre
+      <div class="message-note" id="siteSwimmingMessage" hidden>
+        Swimming is unavailable at this site. Please select a different site.
+      </div>
+
+      <div class="pool-note" id="poolNote" hidden>
+        Please note: Arborfield Leisure Centre and Ryeish Green Leisure Centre
         do not have swimming pools.
       </div>
 
       <button
         type="button"
         class="join-btn"
-        onclick="window.open('https://placesleisure.gladstonego.cloud/memberships?siteId=195', '_blank', 'noopener')">
+        id="joinButton">
         Join Now
       </button>
 
-      <p class="note">Or come to reception to sign up</p>
+      <p class="note">Or come to reception to sign up.</p>
 
-      <button type="button" class="back-btn" onclick="goBack()">
+      <button type="button" class="back-btn" id="backButton">
         Change Leisure Centre
       </button>
+    </section>
 
-    </div>
-  </div>
+  </main>
 
   <script>
+    // ----------------------------------
+    // STATE
+    // ----------------------------------
+
     let selectedSite = "";
     let selectedMembershipType = "";
 
     const siteScreen = document.getElementById("siteScreen");
     const calculatorScreen = document.getElementById("calculatorScreen");
-    const membershipTypeSection = document.getElementById("membershipTypeSection");
+
+    const siteSelect = document.getElementById("site");
     const membershipTypeSelect = document.getElementById("membershipType");
+    const membershipTypeSection = document.getElementById("membershipTypeSection");
+
+    const siteOnlyOption = document.getElementById("siteOnlyOption");
+    const siteOnlyNote = document.getElementById("siteOnlyNote");
+
+    const ageSelect = document.getElementById("age");
     const activitySelect = document.getElementById("activity");
+    const visitsSelect = document.getElementById("visits");
+
+    const result = document.getElementById("result");
+    const poolNote = document.getElementById("poolNote");
+    const siteSwimmingMessage = document.getElementById("siteSwimmingMessage");
+
+    const restrictedSites = [
+      "Arborfield Leisure Centre",
+      "Ryeish Green Leisure Centre"
+    ];
+
+    const sitesWithoutSiteOnly = [
+      "Bulmershe Leisure Centre",
+      "Wokingham Leisure Centre",
+      "Loddon Valley Leisure Centre"
+    ];
 
     // ----------------------------------
     // SITE SELECTION
     // ----------------------------------
 
-    function selectSite() {
-      selectedSite = document.getElementById("site").value;
+    siteSelect.addEventListener("change", function () {
+      selectedSite = siteSelect.value;
 
-      // Reset the second dropdown whenever a site changes.
+      // Always show the membership dropdown after site selection.
+      membershipTypeSection.hidden = false;
+
+      // Reset the membership choice when the site changes.
       membershipTypeSelect.value = "";
       selectedMembershipType = "";
 
+      // Site Only is not available at these three centres.
+      const siteOnlyUnavailable =
+        sitesWithoutSiteOnly.includes(selectedSite);
+
+      siteOnlyOption.disabled = siteOnlyUnavailable;
+      siteOnlyNote.hidden = !siteOnlyUnavailable;
+
+      // Clear old results and selections.
+      clearCalculator();
+
+      // If Site Only was selected previously, do not carry it over.
+    });
+
+    // ----------------------------------
+    // MEMBERSHIP TYPE SELECTION
+    // ----------------------------------
+
+    membershipTypeSelect.addEventListener("change", function () {
+      const type = membershipTypeSelect.value;
+
+      if (!selectedSite || !type) {
+        return;
+      }
+
       if (
-        selectedSite === "Arbofield Leisure Centre" ||
-        selectedSite === "Ryeish Green Leisure Centre"
+        type === "site" &&
+        sitesWithoutSiteOnly.includes(selectedSite)
       ) {
-        // These two sites require a membership type selection.
-        membershipTypeSection.hidden = false;
-      } else {
-        // The other three sites go straight to the calculator.
-        membershipTypeSection.hidden = true;
-        openCalculator("multi");
+        alert("Site Only is not available at this leisure centre.");
+        membershipTypeSelect.value = "";
+        return;
       }
-    }
 
-    function selectMembershipType() {
-      selectedMembershipType = membershipTypeSelect.value;
-
-      if (selectedMembershipType === "multi") {
-        // Multi Site includes all activities.
-        openCalculator("multi");
-      } else if (selectedMembershipType === "site") {
-        // Site Only excludes swimming and Aqua Fit.
-        openCalculator("site");
-      }
-    }
-
-    function openCalculator(type) {
       selectedMembershipType = type;
+      openCalculator();
+    });
 
+    // ----------------------------------
+    // OPEN CALCULATOR
+    // ----------------------------------
+
+    function openCalculator() {
       siteScreen.hidden = true;
       calculatorScreen.hidden = false;
 
       document.getElementById("centreTitle").textContent = selectedSite;
 
-      // Remove any previous results when entering the calculator.
-      document.getElementById("result").hidden = true;
-      document.getElementById("result").innerHTML = "";
-      document.getElementById("poolNote").hidden = true;
+      const typeLabels = {
+        site: "Site Only Membership",
+        multi: "Multi Site Membership",
+        national: "National Access Membership"
+      };
 
-      // Reset the calculator selections.
-      document.getElementById("age").selectedIndex = 0;
-      document.getElementById("activity").selectedIndex = 0;
-      document.getElementById("visits").selectedIndex = 0;
+      document.getElementById("membershipSubtitle").textContent =
+        typeLabels[selectedMembershipType] + " — find the best value for your visits.";
 
-      // Swimming and Aqua Fit are unavailable for Site Only.
-      const waterActivities = activitySelect.querySelectorAll(".waterActivity");
+      configureActivities();
+      clearCalculator();
 
-      waterActivities.forEach(function(option) {
-        option.hidden = type === "site";
-        option.disabled = type === "site";
-      });
-    }
-
-    function goBack() {
-      calculatorScreen.hidden = true;
-      siteScreen.hidden = false;
-
-      document.getElementById("result").hidden = true;
-      document.getElementById("poolNote").hidden = true;
-
-      // Keep the previously selected site so it can be changed easily.
-      if (
-        selectedSite === "Arbofield Leisure Centre" ||
-        selectedSite === "Ryeish Green Leisure Centre"
-      ) {
-        membershipTypeSection.hidden = false;
-      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     // ----------------------------------
-    // MEMBERSHIP CALCULATOR
+    // ACTIVITY RESTRICTIONS
+    // ----------------------------------
+
+    function configureActivities() {
+      const siteOnly = selectedMembershipType === "site";
+
+      const restrictedActivities = ["swim", "aqua", "health", "hcom"];
+
+      Array.from(activitySelect.options).forEach(function (option) {
+        if (restrictedActivities.includes(option.value)) {
+          option.hidden = siteOnly;
+          option.disabled = siteOnly;
+        }
+      });
+
+      activitySelect.value = "";
+    }
+
+    // ----------------------------------
+    // RESET RESULTS
+    // ----------------------------------
+
+    function clearCalculator() {
+      ageSelect.value = "";
+      activitySelect.value = "";
+      visitsSelect.value = "";
+
+      result.hidden = true;
+      result.innerHTML = "";
+
+      poolNote.hidden = true;
+      siteSwimmingMessage.hidden = true;
+    }
+
+    // ----------------------------------
+    // CALCULATE MEMBERSHIP
     // ----------------------------------
 
     function calculate() {
-      const age = document.getElementById("age").value;
-      const activity = document.getElementById("activity").value;
-      const visitsValue = document.getElementById("visits").value;
+      const age = ageSelect.value;
+      const activity = activitySelect.value;
+      const visitsValue = visitsSelect.value;
+
+      result.hidden = true;
+      result.innerHTML = "";
+      poolNote.hidden = true;
+      siteSwimmingMessage.hidden = true;
 
       if (!age || !activity || !visitsValue) {
-        alert("Please select all options before calculating");
+        alert("Please select all options before calculating.");
         return;
       }
 
+      // Safety check for Site Only restrictions.
       if (
         selectedMembershipType === "site" &&
-        (activity === "swim" || activity === "aqua")
+        ["swim", "aqua", "health", "hcom"].includes(activity)
       ) {
-        alert("Swimming and Aqua Fit are not available with Site Only membership.");
+        alert("This activity is not available with Site Only membership.");
+        return;
+      }
+
+      // Neither Arborfield nor Ryeish Green has a swimming pool.
+      // Do not show any prices or membership recommendation for swimming.
+      if (
+        activity === "swim" &&
+        restrictedSites.includes(selectedSite)
+      ) {
+        siteSwimmingMessage.hidden = false;
+        siteSwimmingMessage.textContent =
+          "Swimming is unavailable at " + selectedSite +
+          ". Please select a different site.";
+
         return;
       }
 
@@ -383,7 +555,7 @@
 
       else if (activity === "class") {
         if (age === "junior") {
-          alert("Fitness classes are not available for this age group");
+          alert("Fitness classes are not available for this age group.");
           return;
         }
 
@@ -392,7 +564,7 @@
 
       else if (activity === "aqua") {
         if (age === "junior") {
-          alert("Aqua Fit is not available for this age group");
+          alert("Aqua Fit is not available for this age group.");
           return;
         }
 
@@ -401,7 +573,7 @@
 
       else if (activity === "health") {
         if (age === "junior") {
-          alert("Health Suite is only available for ages 16+");
+          alert("Health Suite is only available for ages 16+.");
           return;
         }
 
@@ -410,7 +582,7 @@
 
       else if (activity === "hcom") {
         if (age === "junior" || age === "teen") {
-          alert("HCOM Classes are only available for ages 19+");
+          alert("HCOM Classes are only available for ages 19+.");
           return;
         }
 
@@ -532,27 +704,25 @@
       // DISPLAY RESULT
       // -----------------------------
 
-      const result = document.getElementById("result");
-
       result.hidden = false;
 
       result.innerHTML = `
         <p>
-          <strong>Monthly PAYG:</strong>
+          <strong>Monthly PAYG:</strong><br>
           £${monthly.toFixed(2)}
         </p>
 
         <p>
-          <strong>${bestName}:</strong>
+          <strong>${bestName}:</strong><br>
           £${bestPrice.toFixed(2)}
         </p>
 
         <p class="joining-fee">
-          One time joining fee: £${joiningFee.toFixed(2)}
+          One-time joining fee: £${joiningFee.toFixed(2)}
         </p>
 
-        <p class="saving ${savings >= 0 ? 'positive' : 'negative'}">
-          ${savings >= 0 ? 'You Save' : 'You Lose'}
+        <p class="saving ${savings >= 0 ? "positive" : "negative"}">
+          ${savings >= 0 ? "You Save" : "You Lose"}
           £${Math.abs(savings).toFixed(2)}
         </p>
 
@@ -561,17 +731,55 @@
         </p>
       `;
 
-      // Show the pool notice if Swim Only is recommended
-      // at either Arbofield or Ryeish Green.
-      const isPoolFreeSite =
-        selectedSite === "Arbofield Leisure Centre" ||
-        selectedSite === "Ryeish Green Leisure Centre";
+      // Safety net: never recommend Swim Only at a site without a pool.
+      if (
+        bestName === "Swim Only Membership" &&
+        restrictedSites.includes(selectedSite)
+      ) {
+        result.hidden = true;
+        result.innerHTML = "";
 
-      const showPoolNote =
-        isPoolFreeSite && bestName === "Swim Only Membership";
+        siteSwimmingMessage.hidden = false;
+        siteSwimmingMessage.textContent =
+          "Swimming is unavailable at " + selectedSite +
+          ". Please select a different site.";
 
-      document.getElementById("poolNote").hidden = !showPoolNote;
+        return;
+      }
+
+      // Inform visitors about the lack of pools if Swim Only is recommended.
+      poolNote.hidden = !(
+        bestName === "Swim Only Membership" &&
+        restrictedSites.includes(selectedSite)
+      );
     }
+
+    // ----------------------------------
+    // NAVIGATION
+    // ----------------------------------
+
+    document.getElementById("calculateButton").addEventListener("click", calculate);
+
+    document.getElementById("backButton").addEventListener("click", function () {
+      calculatorScreen.hidden = true;
+      siteScreen.hidden = false;
+
+      clearCalculator();
+
+      // Retain the selected site and membership type so visitors can change
+      // either one without starting over.
+      membershipTypeSection.hidden = false;
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("joinButton").addEventListener("click", function () {
+      window.open(
+        "https://placesleisure.gladstonego.cloud/memberships?siteId=195",
+        "_blank",
+        "noopener"
+      );
+    });
   </script>
 
 </body>

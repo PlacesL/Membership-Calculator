@@ -5,657 +5,839 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Membership Savings Calculator</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
       margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       min-height: 100vh;
-      padding: 30px 16px;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f58220, #f9b233);
-      color: #303030;
+      padding: 20px 0;
+      color: #fff;
     }
 
     .container {
-      max-width: 620px;
-      margin: 0 auto;
       background: #fff;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.16);
+      color: #333;
+      padding: 22px;
+      border-radius: 22px;
+      width: 420px;
+      max-width: calc(100% - 30px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
     }
 
     h1 {
-      margin: 0 0 10px;
-      color: #e87516;
-      text-align: center;
-      font-size: 28px;
+      margin: 0 0 6px;
+      color: #ff7e5f;
+      font-size: 27px;
     }
 
-    .intro {
-      text-align: center;
-      color: #666;
+    h2 {
+      margin: 0;
+      font-size: 16px;
+      color: #888;
+      font-weight: normal;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #777;
+      margin: 12px 0 22px;
       line-height: 1.5;
-      margin: 0 0 28px;
     }
-
-    .field { margin-bottom: 20px; }
 
     label {
+      text-align: left;
       display: block;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    select, input {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d3d3d3;
-      border-radius: 9px;
-      font-size: 16px;
-      background: #fff;
-    }
-
-    select:focus, input:focus {
-      outline: 2px solid #f58220;
-      border-color: #f58220;
-    }
-
-    .hidden { display: none !important; }
-
-    .notice {
-      margin: 16px 0;
-      padding: 14px 16px;
-      border-radius: 10px;
-      background: #fff2e6;
-      border-left: 4px solid #f58220;
-      line-height: 1.5;
-    }
-
-    .error {
-      background: #fff0ef;
-      border-left-color: #c9362b;
-    }
-
-    .results {
-      margin-top: 25px;
-      padding-top: 22px;
-      border-top: 1px solid #eee;
-    }
-
-    .results h2 {
-      margin: 0 0 16px;
-      font-size: 22px;
-      color: #e87516;
-    }
-
-    .price-card {
-      padding: 18px;
-      background: #fff8f1;
-      border-radius: 12px;
-      margin-bottom: 14px;
-    }
-
-    .price {
-      font-size: 28px;
-      font-weight: bold;
-      margin: 8px 0;
-    }
-
-    .muted {
-      color: #666;
+      margin-top: 18px;
+      margin-bottom: 7px;
+      font-weight: 600;
       font-size: 14px;
+      color: #444;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      padding: 14px 42px 14px 14px;
+      border-radius: 12px;
+      border: 1px solid #e2d7d2;
+      font-size: 14px;
+      font-family: inherit;
+      color: #383838;
+      background-color: #fffaf7;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff7e5f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select:hover {
+      border-color: #ff9b7e;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #ff7e5f;
+      box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.17);
+    }
+
+    select option {
+      background: #fff;
+      color: #333;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: #fff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #333;
+      outline-offset: 3px;
+    }
+
+    .join-btn {
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      background: #f2efed;
+      color: #555;
+      margin-top: 12px;
+    }
+
+    .result {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 15px;
+      background: #fff3e6;
+      overflow-wrap: anywhere;
+    }
+
+    .result p {
       line-height: 1.5;
     }
 
-    .button-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 22px;
-      flex-wrap: wrap;
-    }
-
-    button, .join-button {
-      display: inline-block;
-      border: 0;
-      border-radius: 9px;
-      padding: 13px 20px;
-      font-size: 16px;
+    .saving {
+      font-size: 22px;
       font-weight: bold;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
+      margin-top: 10px;
     }
 
-    .join-button {
-      flex: 1;
-      color: #fff;
-      background: #f58220;
+    .positive {
+      color: #1aa34a;
     }
 
-    .join-button:hover { background: #df6c10; }
-
-    .back-button {
-      color: #444;
-      background: #eee;
+    .negative {
+      color: #d93025;
     }
 
-    .back-button:hover { background: #ddd; }
+    .recommend {
+      margin-top: 8px;
+      font-weight: bold;
+      font-size: 16px;
+    }
 
-    .small-note {
+    .joining-fee {
+      font-size: 13px;
+      color: #777;
+      margin-top: -5px;
+    }
+
+    .note {
       margin-top: 12px;
       font-size: 13px;
-      color: #666;
+      color: #777;
       line-height: 1.5;
     }
 
-    @media (max-width: 480px) {
-      .container { padding: 22px 18px; }
-      h1 { font-size: 24px; }
-      .button-row { flex-direction: column; }
-      .join-button, .back-button { width: 100%; }
+    .pool-note,
+    .message-note {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .pool-note {
+      background: #fff0e8;
+      color: #a54122;
+      border: 1px solid #ffd5c3;
+    }
+
+    .message-note {
+      background: #fff3e6;
+      color: #a54122;
+      border: 1px solid #ffd5c3;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .selection-heading {
+      margin-top: 24px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
-<body>
-  <main class="container">
-    <h1>Membership Savings Calculator</h1>
-    <p class="intro">Find the membership that could save you money based on your chosen leisure centre and activities.</p>
 
-    <div class="field">
-      <label for="site">Choose your leisure centre</label>
+<body>
+
+  <main class="container">
+
+    <!-- STEP 1: SELECT A LEISURE CENTRE -->
+    <section id="siteScreen">
+      <h1>Membership Calculator</h1>
+      <h2>Choose Your Leisure Centre</h2>
+
+      <p class="subtitle">
+        Select your preferred leisure centre to get started.
+      </p>
+
+      <label for="site">Leisure Centre</label>
       <select id="site">
-        <option value="">Select a leisure centre</option>
+        <option value="" selected disabled>Please select a site</option>
         <option value="Bulmershe Leisure Centre">Bulmershe Leisure Centre</option>
         <option value="Wokingham Leisure Centre">Wokingham Leisure Centre</option>
         <option value="Loddon Valley Leisure Centre">Loddon Valley Leisure Centre</option>
         <option value="Arborfield Leisure Centre">Arborfield Leisure Centre</option>
         <option value="Ryeish Green Leisure Centre">Ryeish Green Leisure Centre</option>
       </select>
-    </div>
 
-    <div id="membershipField" class="field hidden">
-      <label for="membershipType">Choose membership type</label>
-      <select id="membershipType">
-        <option value="">Select membership type</option>
-        <option value="Site Only">Site Only</option>
-        <option value="Multi Site">Multi Site</option>
-        <option value="National Access">National Access</option>
-      </select>
-      <div id="siteOnlyNote" class="notice hidden">
-        Site Only membership is not available at this leisure centre. Please choose Multi Site or National Access.
+      <!-- STEP 2: SELECT MEMBERSHIP TYPE -->
+      <div id="membershipTypeSection" hidden>
+        <p class="selection-heading">
+          Now choose your membership type.
+        </p>
+
+        <label for="membershipType">Membership Type</label>
+        <select id="membershipType">
+          <option value="" selected disabled>Please select membership type</option>
+          <option value="site" id="siteOnlyOption">Site Only</option>
+          <option value="multi">Multi Site</option>
+          <option value="national">National Access</option>
+        </select>
+
+        <p class="note" id="siteOnlyNote" hidden>
+          Site Only is not available at this leisure centre.
+          Please choose Multi Site or National Access.
+        </p>
       </div>
-    </div>
-
-    <div id="activityField" class="field hidden">
-      <label for="activity">Choose your activity</label>
-      <select id="activity">
-        <option value="">Select an activity</option>
-      </select>
-    </div>
-
-    <div id="ageField" class="field hidden">
-      <label for="age">Choose your age group</label>
-      <select id="age">
-        <option value="">Select age group</option>
-        <option value="junior">Junior (11–15)</option>
-        <option value="teen">Teen (16–18)</option>
-        <option value="young">Young Adult (19–25)</option>
-        <option value="adult">Adult (26–59)</option>
-        <option value="senior">Senior (60+)</option>
-      </select>
-    </div>
-
-    <div id="visitsField" class="field hidden">
-      <label for="visits">How many times per week do you visit?</label>
-      <select id="visits">
-        <option value="">Select visits per week</option>
-        <option value="1">1 time per week</option>
-        <option value="2">2 times per week</option>
-        <option value="3">3 times per week</option>
-        <option value="4">4 times per week</option>
-        <option value="5">5 times per week</option>
-        <option value="6">6 times per week</option>
-        <option value="7">7 times per week</option>
-      </select>
-    </div>
-
-    <div id="message" class="notice hidden" role="status" aria-live="polite"></div>
-
-    <section id="results" class="results hidden" aria-live="polite">
-      <h2>Your results</h2>
-      <div id="resultContent"></div>
-      <div class="button-row">
-        <button type="button" id="backButton" class="back-button">Start again</button>
-        <a
-          class="join-button"
-          href="https://placesleisure.gladstonego.cloud/memberships?siteId=195"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Join Now</a>
-      </div>
-      <p class="small-note">Prices are based on the rates configured in this calculator. Please confirm current prices and membership eligibility with the leisure centre before joining.</p>
     </section>
+
+    <!-- MAIN CALCULATOR -->
+    <section id="calculatorScreen" hidden>
+      <h1>Membership Calculator</h1>
+      <h2 id="centreTitle">Leisure Centre</h2>
+      <p class="subtitle" id="membershipSubtitle">
+        Find the best value for your visits.
+      </p>
+
+      <label for="age">Age Group</label>
+      <select id="age">
+        <option value="" selected disabled>Please select</option>
+        <option value="junior">11-15</option>
+        <option value="teen">16-18</option>
+        <option value="young">19-25</option>
+        <option value="adult">26-64</option>
+        <option value="senior">65+</option>
+      </select>
+
+      <label for="activity">Activity</label>
+      <select id="activity">
+        <option value="" selected disabled>Please select</option>
+        <option value="gym">Gym</option>
+        <option value="class">Fitness Classes</option>
+        <option value="swim">Swimming</option>
+        <option value="aqua">Aqua Fit</option>
+        <option value="health">Health Suite</option>
+        <option value="hcom">HCOM Class</option>
+      </select>
+
+      <label for="visits">Times per week</label>
+      <select id="visits">
+        <option value="" selected disabled>Please select</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+
+      <button type="button" id="calculateButton">Calculate</button>
+
+      <div class="result" id="result" hidden aria-live="polite"></div>
+
+      <div class="message-note" id="siteSwimmingMessage" hidden>
+        Swimming is unavailable at this site. Please select a different site.
+      </div>
+
+      <div class="pool-note" id="poolNote" hidden>
+        Please note: Arborfield Leisure Centre and Ryeish Green Leisure Centre
+        do not have swimming pools.
+      </div>
+
+      <button type="button" class="join-btn" id="joinButton">
+        Join Now
+      </button>
+
+      <p class="note">Or come to reception to sign up.</p>
+
+      <button type="button" class="back-btn" id="backButton">
+        Change Leisure Centre
+      </button>
+    </section>
+
   </main>
 
   <script>
+    // ----------------------------------
+    // STATE AND ELEMENTS
+    // ----------------------------------
+
+    let selectedSite = "";
+    let selectedMembershipType = "";
+
+    const siteScreen = document.getElementById("siteScreen");
+    const calculatorScreen = document.getElementById("calculatorScreen");
+
     const siteSelect = document.getElementById("site");
-    const membershipSelect = document.getElementById("membershipType");
-    const activitySelect = document.getElementById("activity");
+    const membershipTypeSelect = document.getElementById("membershipType");
+    const membershipTypeSection = document.getElementById("membershipTypeSection");
+
+    const siteOnlyOption = document.getElementById("siteOnlyOption");
+    const siteOnlyNote = document.getElementById("siteOnlyNote");
+
     const ageSelect = document.getElementById("age");
+    const activitySelect = document.getElementById("activity");
     const visitsSelect = document.getElementById("visits");
 
-    const membershipField = document.getElementById("membershipField");
-    const activityField = document.getElementById("activityField");
-    const ageField = document.getElementById("ageField");
-    const visitsField = document.getElementById("visitsField");
-    const siteOnlyNote = document.getElementById("siteOnlyNote");
-    const message = document.getElementById("message");
-    const results = document.getElementById("results");
-    const resultContent = document.getElementById("resultContent");
+    const result = document.getElementById("result");
+    const poolNote = document.getElementById("poolNote");
+    const siteSwimmingMessage = document.getElementById("siteSwimmingMessage");
 
-    const siteOnlyUnavailable = [
+    const restrictedSites = [
+      "Arborfield Leisure Centre",
+      "Ryeish Green Leisure Centre"
+    ];
+
+    const sitesWithoutSiteOnly = [
       "Bulmershe Leisure Centre",
       "Wokingham Leisure Centre",
       "Loddon Valley Leisure Centre"
     ];
 
-    const noSwimmingPool = [
-      "Arborfield Leisure Centre",
-      "Ryeish Green Leisure Centre"
-    ];
+    // ----------------------------------
+    // SITE SELECTION
+    // ----------------------------------
 
-    
-const activityOptions = {
-  "Site Only": [
-    "Gym",
-    "Fitness Classes"
-  ],
-  "Multi Site": [
-    "Gym",
-    "Fitness Classes",
-    "Swimming",
-    "Aqua Fit",
-    "Health Suite",
-    "HCOM Class"
-  ],
-  "National Access": [
-    "Gym",
-    "Fitness Classes",
-    "Swimming",
-    "Aqua Fit",
-    "Health Suite"
-  ]
-};
+    siteSelect.addEventListener("change", function () {
+      selectedSite = siteSelect.value;
 
+      membershipTypeSection.hidden = false;
+      membershipTypeSelect.value = "";
+      selectedMembershipType = "";
 
-    const paygPrices = {
-      "Swimming": {
-        junior: 4.85,
-        teen: 7.05,
-        young: 7.05,
-        adult: 7.05,
-        senior: 4.30
-      },
-      "Gym": {
-        junior: 7.70,
-        teen: 13.65,
-        young: 13.65,
-        adult: 13.65,
-        senior: 7.70
-      },
-      "Fitness Classes": {
-        junior: null,
-        teen: 11.05,
-        young: 11.05,
-        adult: 11.05,
-        senior: 6.20
-      },
-      "Aqua Fit": {
-        junior: null,
-        teen: 9.55,
-        young: 9.55,
-        adult: 9.55,
-        senior: 6.20
-      },
-      "Health Suite": {
-        junior: null,
-        teen: 25.00,
-        young: 25.00,
-        adult: 25.00,
-        senior: 25.00
-      },
-      "HCOM Class": {
-        junior: null,
-        teen: null,
-        young: 7.20,
-        adult: 7.20,
-        senior: 7.20
+      const siteOnlyUnavailable =
+        sitesWithoutSiteOnly.includes(selectedSite);
+
+      siteOnlyOption.disabled = siteOnlyUnavailable;
+      siteOnlyNote.hidden = !siteOnlyUnavailable;
+
+      clearCalculator();
+    });
+
+    // ----------------------------------
+    // MEMBERSHIP TYPE SELECTION
+    // ----------------------------------
+
+    membershipTypeSelect.addEventListener("change", function () {
+      const type = membershipTypeSelect.value;
+
+      if (!selectedSite || !type) {
+        return;
       }
-    };
 
-    const standardMemberships = {
-      junior: { name: "Junior 11-15 Membership", price: 24, joiningFee: 20 },
-      teen: { name: "Premium 16-18 Membership", price: 35, joiningFee: 25 },
-      young: { name: "Premium 19-25 Membership", price: 45, joiningFee: 30 },
-      adult: { name: "Premium Membership", price: 60, joiningFee: 30 },
-      senior: { name: "Premium Concession Membership", price: 51, joiningFee: 30 }
-    };
+      if (
+        type === "site" &&
+        sitesWithoutSiteOnly.includes(selectedSite)
+      ) {
+        alert("Site Only is not available at this leisure centre.");
+        membershipTypeSelect.value = "";
+        return;
+      }
 
-    const premiumPlusPrices = {
-      teen: 56,
-      young: 56,
-      adult: 75,
-      senior: 63.50
-    };
+      selectedMembershipType = type;
+      openCalculator();
+    });
 
-    function money(value) {
-      return "£" + value.toFixed(2);
+    // ----------------------------------
+    // OPEN CALCULATOR
+    // ----------------------------------
+
+    function openCalculator() {
+      siteScreen.hidden = true;
+      calculatorScreen.hidden = false;
+
+      document.getElementById("centreTitle").textContent = selectedSite;
+
+      const typeLabels = {
+        site: "Site Only Membership",
+        multi: "Multi Site Membership",
+        national: "National Access Membership"
+      };
+
+      document.getElementById("membershipSubtitle").textContent =
+        typeLabels[selectedMembershipType] +
+        " — find the best value for your visits.";
+
+      configureActivities();
+      clearCalculator();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function clearResults() {
-      results.classList.add("hidden");
-      resultContent.innerHTML = "";
-    }
+    // ----------------------------------
+    // ACTIVITY RESTRICTIONS
+    // ----------------------------------
 
-    function showMessage(text, isError = false) {
-      message.textContent = text;
-      message.classList.remove("hidden", "error");
-      if (isError) message.classList.add("error");
-    }
+    function configureActivities() {
+      const unavailableActivities = {
+        site: ["swim", "aqua", "health", "hcom"],
+        multi: ["health"],
+        national: []
+      };
 
-    function hideMessage() {
-      message.textContent = "";
-      message.classList.add("hidden");
-      message.classList.remove("error");
-    }
+      const restricted = unavailableActivities[selectedMembershipType] || [];
 
-    function resetBelowSite() {
-      membershipSelect.value = "";
-      activitySelect.innerHTML = '<option value="">Select an activity</option>';
-      ageSelect.value = "";
-      visitsSelect.value = "";
-      activityField.classList.add("hidden");
-      ageField.classList.add("hidden");
-      visitsField.classList.add("hidden");
-      siteOnlyNote.classList.add("hidden");
-      clearResults();
-      hideMessage();
-    }
+      Array.from(activitySelect.options).forEach(function (option) {
+        if (!option.value) return;
 
-    function populateActivities(type) {
-      activitySelect.innerHTML = '<option value="">Select an activity</option>';
-
-      (activityOptions[type] || []).forEach(activity => {
-        const option = document.createElement("option");
-        option.value = activity;
-        option.textContent = activity;
-        activitySelect.appendChild(option);
+        const unavailable = restricted.includes(option.value);
+        option.hidden = unavailable;
+        option.disabled = unavailable;
       });
+
+      activitySelect.value = "";
     }
 
-    function refreshResults() {
-      clearResults();
-      hideMessage();
+    // ----------------------------------
+    // RESET RESULTS
+    // ----------------------------------
 
-      const site = siteSelect.value;
-      const type = membershipSelect.value;
-      const activity = activitySelect.value;
+    function clearCalculator() {
+      ageSelect.value = "";
+      activitySelect.value = "";
+      visitsSelect.value = "";
+
+      result.hidden = true;
+      result.innerHTML = "";
+
+      poolNote.hidden = true;
+      siteSwimmingMessage.hidden = true;
+    }
+
+    // ----------------------------------
+    // PREMIUM+ PRICING
+    // ----------------------------------
+
+    function getPremiumPlus(age) {
+      if (age === "teen" || age === "young") {
+        return {
+          name: "Premium+ 16-25",
+          price: 56
+        };
+      }
+
+      if (age === "adult") {
+        return {
+          name: "Premium+",
+          price: 75
+        };
+      }
+
+      if (age === "senior") {
+        return {
+          name: "Concession Premium+",
+          price: 63.50
+        };
+      }
+
+      // No junior Premium+ price was supplied.
+      return null;
+    }
+
+    // ----------------------------------
+    // CALCULATE MEMBERSHIP
+    // ----------------------------------
+
+    function calculate() {
       const age = ageSelect.value;
-      const visits = Number(visitsSelect.value);
+      const activity = activitySelect.value;
+      const visitsValue = visitsSelect.value;
 
-      if (!site || !type || !activity || !age || !visits) return;
+      result.hidden = true;
+      result.innerHTML = "";
+      poolNote.hidden = true;
+      siteSwimmingMessage.hidden = true;
 
-      // Swimming is unavailable at these two leisure centres.
-      if (activity === "Swimming" && noSwimmingPool.includes(site)) {
-        showMessage(
-          `Swimming is unavailable at ${site}. Please select a different site.`,
-          true
-        );
+      if (!age || !activity || !visitsValue) {
+        alert("Please select all options before calculating.");
         return;
       }
 
-      // Health Suite is listed for Multi Site, but is only offered through National Access.
-      if (type === "Multi Site" && activity === "Health Suite") {
-        showMessage(
-          "Health Suite is only available through National Access. Please go back and select National Access to use this activity.",
-          true
-        );
+      // Enforce Site Only restrictions.
+      if (
+        selectedMembershipType === "site" &&
+        ["swim", "aqua", "health", "hcom"].includes(activity)
+      ) {
+        alert("This activity is not available with Site Only membership.");
         return;
       }
 
-      const paygRate = paygPrices[activity]?.[age];
-
-      if (paygRate == null) {
-        showMessage(
-          `There is no Pay As You Go price available for ${activity} for this age group. Please contact your leisure centre for details.`,
-          true
-        );
+      // Multi Site does not include Health Suite.
+      if (
+        selectedMembershipType === "multi" &&
+        activity === "health"
+      ) {
+        alert("Health Suite is not available with Multi Site membership.");
         return;
       }
 
-      const monthlyPayg = paygRate * visits * 4;
-      let recommendedName = "";
-      let recommendedPrice = 0;
+      // Swimming is unavailable at Arborfield and Ryeish Green.
+      // Do not display any price or membership recommendation.
+      if (
+        activity === "swim" &&
+        restrictedSites.includes(selectedSite)
+      ) {
+        siteSwimmingMessage.textContent =
+          "Swimming is unavailable at " + selectedSite +
+          ". Please select a different site.";
+
+        siteSwimmingMessage.hidden = false;
+        return;
+      }
+
+      const visits = parseInt(visitsValue, 10);
+      let price = 0;
+
+      // -----------------------------
+      // PAY AS YOU GO PRICING
+      // -----------------------------
+
+      if (activity === "swim") {
+        if (age === "junior") {
+          price = 4.85;
+        } else if (age === "senior") {
+          price = 4.30;
+        } else {
+          price = 7.05;
+        }
+      }
+
+      else if (activity === "gym") {
+        if (age === "junior" || age === "senior") {
+          price = 7.70;
+        } else {
+          price = 13.65;
+        }
+      }
+
+      else if (activity === "class") {
+        if (age === "junior") {
+          alert("Fitness classes are not available for this age group.");
+          return;
+        }
+
+        price = age === "senior" ? 6.20 : 11.05;
+      }
+
+      else if (activity === "aqua") {
+        if (age === "junior") {
+          alert("Aqua Fit is not available for this age group.");
+          return;
+        }
+
+        price = age === "senior" ? 6.20 : 9.55;
+      }
+
+      else if (activity === "health") {
+        if (age === "junior") {
+          alert("Health Suite is only available for ages 16+.");
+          return;
+        }
+
+        price = 25;
+      }
+
+      else if (activity === "hcom") {
+        if (age === "junior" || age === "teen") {
+          alert("HCOM Classes are only available for ages 19+.");
+          return;
+        }
+
+        price = 7.20;
+      }
+
+      // Monthly PAYG cost: four weeks per month.
+      const monthly = price * visits * 4;
+
+      // -----------------------------
+      // DEFAULT MEMBERSHIPS
+      // -----------------------------
+
+      let membership = 60;
+      let name = "Premium Membership";
+
+      if (age === "senior") {
+        membership = 51;
+        name = "Premium Concession Membership";
+      }
+
+      else if (age === "young") {
+        membership = 45;
+        name = "Premium 19-25 Membership";
+      }
+
+      else if (age === "teen") {
+        membership = 35;
+        name = "Premium 16-18 Membership";
+      }
+
+      else if (age === "junior") {
+        membership = 24;
+        name = "Junior 11-15 Membership";
+      }
+
+      let bestPrice = membership;
+      let bestName = name;
       let joiningFee = 30;
 
-      if (type === "National Access") {
-        if (activity === "Swimming") {
-          recommendedName = "Swim Plus";
-          recommendedPrice = 36;
-          joiningFee = 20;
-        } else {
-          const premiumPlus = premiumPlusPrices[age];
+      // -----------------------------
+      // NATIONAL ACCESS RECOMMENDATIONS
+      // -----------------------------
 
-          if (premiumPlus == null) {
-            showMessage(
-              "Premium Plus pricing is not configured for this age group. Please contact the leisure centre for details.",
-              true
-            );
-            return;
-          }
+      if (selectedMembershipType === "national") {
 
-          recommendedName = "Premium Plus";
-          recommendedPrice = premiumPlus;
-          joiningFee = 30;
-        }
-      } else if (activity === "HCOM Class") {
-        recommendedName = "HCOM Membership";
-        recommendedPrice = 42;
-        joiningFee = 0;
-      } else {
-        const standard = standardMemberships[age];
-
-        recommendedName = standard.name;
-        recommendedPrice = standard.price;
-        joiningFee = standard.joiningFee;
-
-        // Swim Only is recommended when it is cheaper than the standard membership
-        // and swimming is the chosen activity.
-        if (activity === "Swimming" && 30 < recommendedPrice) {
-          recommendedName = "Swim Only Membership";
-          recommendedPrice = 30;
+        if (activity === "swim") {
+          // Swim Plus has a fixed monthly price and joining fee.
+          bestPrice = 36;
+          bestName = "Swim Plus";
           joiningFee = 20;
         }
 
-        // Health Suite memberships are Premium+ outside National Access.
-        if (activity === "Health Suite") {
-          if (age === "teen" || age === "young") {
-            recommendedName = "Premium+ 16-25 Membership";
-            recommendedPrice = 56;
-          } else if (age === "adult") {
-            recommendedName = "Premium+ Membership";
-            recommendedPrice = 75;
-          } else if (age === "senior") {
-            recommendedName = "Concession Premium+ Membership";
-            recommendedPrice = 63.50;
+        else if (
+          ["gym", "class", "aqua", "health"].includes(activity)
+        ) {
+          const premiumPlus = getPremiumPlus(age);
+
+          if (premiumPlus) {
+            bestPrice = premiumPlus.price;
+            bestName = premiumPlus.name;
           } else {
-            showMessage(
-              "A Health Suite membership price is not available for this age group. Please contact the leisure centre for details.",
-              true
+            // Do not invent a junior Premium+ price.
+            alert(
+              "A Premium+ price for ages 11-15 has not been configured. " +
+              "Please contact reception for the correct National Access price."
             );
             return;
           }
         }
       }
 
-      const monthlySavings = monthlyPayg - recommendedPrice;
-      const annualSavings = monthlySavings * 12;
+      // -----------------------------
+      // NON-NATIONAL SWIM ONLY
+      // -----------------------------
 
-      resultContent.innerHTML = `
-        <div class="price-card">
-          <strong>Estimated Pay As You Go cost</strong>
-          <div class="price">${money(monthlyPayg)} / month</div>
-          <div class="muted">
-            ${money(paygRate)} per visit × ${visits} visit(s) per week × 4 weeks.
-          </div>
-        </div>
+      else if (activity === "swim") {
+        const swimOnlyPrice = 30;
 
-        <div class="price-card">
-          <strong>Recommended membership</strong>
-          <div class="price">${recommendedName}</div>
-          <div class="price">${money(recommendedPrice)} / month</div>
-          <div class="muted">Joining fee: ${money(joiningFee)}</div>
-        </div>
+        if (swimOnlyPrice < bestPrice) {
+          bestPrice = swimOnlyPrice;
+          bestName = "Swim Only Membership";
+          joiningFee = 20;
+        }
+      }
 
-        <div class="price-card">
-          <strong>Estimated monthly difference</strong>
-          <div class="price">${monthlySavings >= 0 ? "Save " : "Extra "}${money(Math.abs(monthlySavings))}</div>
-          <div class="muted">
-            ${monthlySavings >= 0
-              ? `Potential annual saving: ${money(annualSavings)}.`
-              : `This membership costs more than the estimated Pay As You Go total for the visits entered.`}
-          </div>
-        </div>
+      // -----------------------------
+      // HEALTH SUITE MEMBERSHIPS
+      // -----------------------------
+
+      if (
+        activity === "health" &&
+        selectedMembershipType !== "national"
+      ) {
+        if (age === "teen" || age === "young") {
+          bestPrice = 56;
+          bestName = "Premium+ 16-25";
+        }
+
+        else if (age === "adult") {
+          bestPrice = 75;
+          bestName = "Premium+";
+        }
+
+        else if (age === "senior") {
+          bestPrice = 63.50;
+          bestName = "Concession Premium+";
+        }
+      }
+
+      // -----------------------------
+      // HCOM MEMBERSHIP
+      // -----------------------------
+
+      if (activity === "hcom") {
+        bestPrice = 42;
+        bestName = "HCOM Membership";
+        joiningFee = 0;
+      }
+
+      // -----------------------------
+      // STANDARD JOINING FEES
+      // -----------------------------
+
+      if (
+        selectedMembershipType !== "national" &&
+        activity !== "hcom"
+      ) {
+        joiningFee = 30;
+
+        if (bestName === "Premium 16-18 Membership") {
+          joiningFee = 25;
+        }
+
+        else if (bestName === "Junior 11-15 Membership") {
+          joiningFee = 20;
+        }
+
+        else if (bestName === "Swim Only Membership") {
+          joiningFee = 20;
+        }
+      }
+
+      // -----------------------------
+      // SAVINGS CALCULATION
+      // -----------------------------
+
+      const savings = monthly - bestPrice;
+
+      const recommendation = savings > 0
+        ? "💡 " + bestName + " is the best option"
+        : "💡 Pay as you go is cheaper";
+
+      // -----------------------------
+      // DISPLAY RESULT
+      // -----------------------------
+
+      result.hidden = false;
+
+      result.innerHTML = `
+        <p>
+          <strong>Monthly PAYG:</strong><br>
+          £${monthly.toFixed(2)}
+        </p>
+
+        <p>
+          <strong>${bestName}:</strong><br>
+          £${bestPrice.toFixed(2)} per month
+        </p>
+
+        <p class="joining-fee">
+          One-time joining fee: £${joiningFee.toFixed(2)}
+        </p>
+
+        <p class="saving ${savings >= 0 ? "positive" : "negative"}">
+          ${savings >= 0 ? "You Save" : "You Lose"}
+          £${Math.abs(savings).toFixed(2)} per month
+        </p>
+
+        <p class="recommend">
+          ${recommendation}
+        </p>
       `;
 
-      results.classList.remove("hidden");
+      // Additional pool notice if Swim Only is recommended
+      // at a site without a swimming pool.
+      poolNote.hidden = !(
+        bestName === "Swim Only Membership" &&
+        restrictedSites.includes(selectedSite)
+      );
     }
 
-    siteSelect.addEventListener("change", () => {
-      resetBelowSite();
+    // ----------------------------------
+    // NAVIGATION AND BUTTONS
+    // ----------------------------------
 
-      if (!siteSelect.value) {
-        membershipField.classList.add("hidden");
-        return;
-      }
+    document.getElementById("calculateButton")
+      .addEventListener("click", calculate);
 
-      membershipField.classList.remove("hidden");
+    document.getElementById("backButton")
+      .addEventListener("click", function () {
+        calculatorScreen.hidden = true;
+        siteScreen.hidden = false;
 
-      const siteOnlyOption = [...membershipSelect.options]
-        .find(option => option.value === "Site Only");
+        clearCalculator();
+        membershipTypeSection.hidden = false;
 
-      const unavailable = siteOnlyUnavailable.includes(siteSelect.value);
-      siteOnlyOption.disabled = unavailable;
-      siteOnlyNote.classList.toggle("hidden", !unavailable);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
 
-      if (unavailable) {
-        siteOnlyOption.textContent = "Site Only (unavailable at this centre)";
-      } else {
-        siteOnlyOption.textContent = "Site Only";
-      }
-    });
-
-    membershipSelect.addEventListener("change", () => {
-      activitySelect.value = "";
-      ageSelect.value = "";
-      visitsSelect.value = "";
-      clearResults();
-      hideMessage();
-
-      const type = membershipSelect.value;
-
-      if (!type) {
-        activityField.classList.add("hidden");
-        ageField.classList.add("hidden");
-        visitsField.classList.add("hidden");
-        return;
-      }
-
-      populateActivities(type);
-      activityField.classList.remove("hidden");
-      ageField.classList.add("hidden");
-      visitsField.classList.add("hidden");
-    });
-
-    activitySelect.addEventListener("change", () => {
-      ageSelect.value = "";
-      visitsSelect.value = "";
-      clearResults();
-      hideMessage();
-
-      if (!activitySelect.value) {
-        ageField.classList.add("hidden");
-        visitsField.classList.add("hidden");
-        return;
-      }
-
-      ageField.classList.remove("hidden");
-      visitsField.classList.add("hidden");
-
-      // Give immediate guidance as soon as Health Suite is chosen under Multi Site.
-      if (
-        membershipSelect.value === "Multi Site" &&
-        activitySelect.value === "Health Suite"
-      ) {
-        showMessage(
-          "Health Suite is only available through National Access. Please go back and select National Access to use this activity.",
-          true
+    document.getElementById("joinButton")
+      .addEventListener("click", function () {
+        window.open(
+          "https://placesleisure.gladstonego.cloud/memberships?siteId=195",
+          "_blank",
+          "noopener"
         );
-      }
-
-      if (
-        activitySelect.value === "Swimming" &&
-        noSwimmingPool.includes(siteSelect.value)
-      ) {
-        showMessage(
-          `Swimming is unavailable at ${siteSelect.value}. Please select a different site.`,
-          true
-        );
-      }
-    });
-
-    ageSelect.addEventListener("change", () => {
-      visitsSelect.value = "";
-      clearResults();
-      hideMessage();
-
-      if (!ageSelect.value) {
-        visitsField.classList.add("hidden");
-        return;
-      }
-
-      visitsField.classList.remove("hidden");
-
-      if (
-        membershipSelect.value === "Multi Site" &&
-        activitySelect.value === "Health Suite"
-      ) {
-        showMessage(
-          "Health Suite is only available through National Access. Please go back and select National Access to use this activity.",
-          true
-        );
-      } else if (
-        activitySelect.value === "Swimming" &&
-        noSwimmingPool.includes(siteSelect.value)
-      ) {
-        showMessage(
-          `Swimming is unavailable at ${siteSelect.value}. Please select a different site.`,
-          true
-        );
-      }
-    });
-
-    visitsSelect.addEventListener("change", refreshResults);
-
-    document.getElementById("backButton").addEventListener("click", () => {
-      siteSelect.value = "";
-      membershipField.classList.add("hidden");
-      resetBelowSite();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+      });
   </script>
+
 </body>
 </html>
 

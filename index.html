@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,7 +95,6 @@
     select option {
       background: #fff;
       color: #333;
-      padding: 10px;
     }
 
     button {
@@ -322,10 +322,7 @@
         do not have swimming pools.
       </div>
 
-      <button
-        type="button"
-        class="join-btn"
-        id="joinButton">
+      <button type="button" class="join-btn" id="joinButton">
         Join Now
       </button>
 
@@ -340,7 +337,7 @@
 
   <script>
     // ----------------------------------
-    // STATE
+    // STATE AND ELEMENTS
     // ----------------------------------
 
     let selectedSite = "";
@@ -382,24 +379,17 @@
     siteSelect.addEventListener("change", function () {
       selectedSite = siteSelect.value;
 
-      // Always show the membership dropdown after site selection.
       membershipTypeSection.hidden = false;
-
-      // Reset the membership choice when the site changes.
       membershipTypeSelect.value = "";
       selectedMembershipType = "";
 
-      // Site Only is not available at these three centres.
       const siteOnlyUnavailable =
         sitesWithoutSiteOnly.includes(selectedSite);
 
       siteOnlyOption.disabled = siteOnlyUnavailable;
       siteOnlyNote.hidden = !siteOnlyUnavailable;
 
-      // Clear old results and selections.
       clearCalculator();
-
-      // If Site Only was selected previously, do not carry it over.
     });
 
     // ----------------------------------
@@ -443,7 +433,8 @@
       };
 
       document.getElementById("membershipSubtitle").textContent =
-        typeLabels[selectedMembershipType] + " — find the best value for your visits.";
+        typeLabels[selectedMembershipType] +
+        " — find the best value for your visits.";
 
       configureActivities();
       clearCalculator();
@@ -456,15 +447,20 @@
     // ----------------------------------
 
     function configureActivities() {
-      const siteOnly = selectedMembershipType === "site";
+      const unavailableActivities = {
+        site: ["swim", "aqua", "health", "hcom"],
+        multi: ["health"],
+        national: []
+      };
 
-      const restrictedActivities = ["swim", "aqua", "health", "hcom"];
+      const restricted = unavailableActivities[selectedMembershipType] || [];
 
       Array.from(activitySelect.options).forEach(function (option) {
-        if (restrictedActivities.includes(option.value)) {
-          option.hidden = siteOnly;
-          option.disabled = siteOnly;
-        }
+        if (!option.value) return;
+
+        const unavailable = restricted.includes(option.value);
+        option.hidden = unavailable;
+        option.disabled = unavailable;
       });
 
       activitySelect.value = "";
@@ -487,6 +483,36 @@
     }
 
     // ----------------------------------
+    // PREMIUM+ PRICING
+    // ----------------------------------
+
+    function getPremiumPlus(age) {
+      if (age === "teen" || age === "young") {
+        return {
+          name: "Premium+ 16-25",
+          price: 56
+        };
+      }
+
+      if (age === "adult") {
+        return {
+          name: "Premium+",
+          price: 75
+        };
+      }
+
+      if (age === "senior") {
+        return {
+          name: "Concession Premium+",
+          price: 63.50
+        };
+      }
+
+      // No junior Premium+ price was supplied.
+      return null;
+    }
+
+    // ----------------------------------
     // CALCULATE MEMBERSHIP
     // ----------------------------------
 
@@ -505,7 +531,7 @@
         return;
       }
 
-      // Safety check for Site Only restrictions.
+      // Enforce Site Only restrictions.
       if (
         selectedMembershipType === "site" &&
         ["swim", "aqua", "health", "hcom"].includes(activity)
@@ -514,17 +540,26 @@
         return;
       }
 
-      // Neither Arborfield nor Ryeish Green has a swimming pool.
-      // Do not show any prices or membership recommendation for swimming.
+      // Multi Site does not include Health Suite.
+      if (
+        selectedMembershipType === "multi" &&
+        activity === "health"
+      ) {
+        alert("Health Suite is not available with Multi Site membership.");
+        return;
+      }
+
+      // Swimming is unavailable at Arborfield and Ryeish Green.
+      // Do not display any price or membership recommendation.
       if (
         activity === "swim" &&
         restrictedSites.includes(selectedSite)
       ) {
-        siteSwimmingMessage.hidden = false;
         siteSwimmingMessage.textContent =
           "Swimming is unavailable at " + selectedSite +
           ". Please select a different site.";
 
+        siteSwimmingMessage.hidden = false;
         return;
       }
 
@@ -589,10 +624,7 @@
         price = 7.20;
       }
 
-      // -----------------------------
-      // MONTHLY PAYG COST
-      // -----------------------------
-
+      // Monthly PAYG cost: four weeks per month.
       const monthly = price * visits * 4;
 
       // -----------------------------
@@ -624,17 +656,51 @@
 
       let bestPrice = membership;
       let bestName = name;
+      let joiningFee = 30;
 
       // -----------------------------
-      // SWIM ONLY MEMBERSHIP
+      // NATIONAL ACCESS RECOMMENDATIONS
       // -----------------------------
 
-      if (activity === "swim") {
+      if (selectedMembershipType === "national") {
+
+        if (activity === "swim") {
+          // Swim Plus has a fixed monthly price and joining fee.
+          bestPrice = 36;
+          bestName = "Swim Plus";
+          joiningFee = 20;
+        }
+
+        else if (
+          ["gym", "class", "aqua", "health"].includes(activity)
+        ) {
+          const premiumPlus = getPremiumPlus(age);
+
+          if (premiumPlus) {
+            bestPrice = premiumPlus.price;
+            bestName = premiumPlus.name;
+          } else {
+            // Do not invent a junior Premium+ price.
+            alert(
+              "A Premium+ price for ages 11-15 has not been configured. " +
+              "Please contact reception for the correct National Access price."
+            );
+            return;
+          }
+        }
+      }
+
+      // -----------------------------
+      // NON-NATIONAL SWIM ONLY
+      // -----------------------------
+
+      else if (activity === "swim") {
         const swimOnlyPrice = 30;
 
         if (swimOnlyPrice < bestPrice) {
           bestPrice = swimOnlyPrice;
           bestName = "Swim Only Membership";
+          joiningFee = 20;
         }
       }
 
@@ -642,7 +708,10 @@
       // HEALTH SUITE MEMBERSHIPS
       // -----------------------------
 
-      if (activity === "health") {
+      if (
+        activity === "health" &&
+        selectedMembershipType !== "national"
+      ) {
         if (age === "teen" || age === "young") {
           bestPrice = 56;
           bestName = "Premium+ 16-25";
@@ -666,28 +735,30 @@
       if (activity === "hcom") {
         bestPrice = 42;
         bestName = "HCOM Membership";
-      }
-
-      // -----------------------------
-      // ONE-TIME JOINING FEE
-      // -----------------------------
-
-      let joiningFee = 30;
-
-      if (bestName === "Premium 16-18 Membership") {
-        joiningFee = 25;
-      }
-
-      else if (bestName === "Junior 11-15 Membership") {
-        joiningFee = 20;
-      }
-
-      else if (bestName === "Swim Only Membership") {
-        joiningFee = 20;
-      }
-
-      else if (bestName === "HCOM Membership") {
         joiningFee = 0;
+      }
+
+      // -----------------------------
+      // STANDARD JOINING FEES
+      // -----------------------------
+
+      if (
+        selectedMembershipType !== "national" &&
+        activity !== "hcom"
+      ) {
+        joiningFee = 30;
+
+        if (bestName === "Premium 16-18 Membership") {
+          joiningFee = 25;
+        }
+
+        else if (bestName === "Junior 11-15 Membership") {
+          joiningFee = 20;
+        }
+
+        else if (bestName === "Swim Only Membership") {
+          joiningFee = 20;
+        }
       }
 
       // -----------------------------
@@ -714,7 +785,7 @@
 
         <p>
           <strong>${bestName}:</strong><br>
-          £${bestPrice.toFixed(2)}
+          £${bestPrice.toFixed(2)} per month
         </p>
 
         <p class="joining-fee">
@@ -723,7 +794,7 @@
 
         <p class="saving ${savings >= 0 ? "positive" : "negative"}">
           ${savings >= 0 ? "You Save" : "You Lose"}
-          £${Math.abs(savings).toFixed(2)}
+          £${Math.abs(savings).toFixed(2)} per month
         </p>
 
         <p class="recommend">
@@ -731,23 +802,8 @@
         </p>
       `;
 
-      // Safety net: never recommend Swim Only at a site without a pool.
-      if (
-        bestName === "Swim Only Membership" &&
-        restrictedSites.includes(selectedSite)
-      ) {
-        result.hidden = true;
-        result.innerHTML = "";
-
-        siteSwimmingMessage.hidden = false;
-        siteSwimmingMessage.textContent =
-          "Swimming is unavailable at " + selectedSite +
-          ". Please select a different site.";
-
-        return;
-      }
-
-      // Inform visitors about the lack of pools if Swim Only is recommended.
+      // Additional pool notice if Swim Only is recommended
+      // at a site without a swimming pool.
       poolNote.hidden = !(
         bestName === "Swim Only Membership" &&
         restrictedSites.includes(selectedSite)
@@ -755,32 +811,35 @@
     }
 
     // ----------------------------------
-    // NAVIGATION
+    // NAVIGATION AND BUTTONS
     // ----------------------------------
 
-    document.getElementById("calculateButton").addEventListener("click", calculate);
+    document.getElementById("calculateButton")
+      .addEventListener("click", calculate);
 
-    document.getElementById("backButton").addEventListener("click", function () {
-      calculatorScreen.hidden = true;
-      siteScreen.hidden = false;
+    document.getElementById("backButton")
+      .addEventListener("click", function () {
+        calculatorScreen.hidden = true;
+        siteScreen.hidden = false;
 
-      clearCalculator();
+        clearCalculator();
+        membershipTypeSection.hidden = false;
 
-      // Retain the selected site and membership type so visitors can change
-      // either one without starting over.
-      membershipTypeSection.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    document.getElementById("joinButton").addEventListener("click", function () {
-      window.open(
-        "https://placesleisure.gladstonego.cloud/memberships?siteId=195",
-        "_blank",
-        "noopener"
-      );
-    });
+    document.getElementById("joinButton")
+      .addEventListener("click", function () {
+        window.open(
+          "https://placesleisure.gladstonego.cloud/memberships?siteId=195",
+          "_blank",
+          "noopener"
+        );
+      });
   </script>
 
 </body>
 </html>
+
+</html>
+

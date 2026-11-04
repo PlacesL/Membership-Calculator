@@ -229,7 +229,9 @@
   <main class="container">
 
     <!-- STEP 1: SELECT A LEISURE CENTRE -->
+
     <section id="siteScreen">
+
       <h1>Membership Calculator</h1>
       <h2>Choose Your Leisure Centre</h2>
 
@@ -238,6 +240,7 @@
       </p>
 
       <label for="site">Leisure Centre</label>
+
       <select id="site">
         <option value="" selected disabled>Please select a site</option>
         <option value="Bulmershe Leisure Centre">Bulmershe Leisure Centre</option>
@@ -248,12 +251,15 @@
       </select>
 
       <!-- STEP 2: SELECT MEMBERSHIP TYPE -->
+
       <div id="membershipTypeSection" hidden>
+
         <p class="selection-heading">
           Now choose your membership type.
         </p>
 
         <label for="membershipType">Membership Type</label>
+
         <select id="membershipType">
           <option value="" selected disabled>Please select membership type</option>
           <option value="site" id="siteOnlyOption">Site Only</option>
@@ -265,28 +271,47 @@
           Site Only is not available at this leisure centre.
           Please choose Multi Site or National Access.
         </p>
+
       </div>
+
     </section>
 
+
     <!-- MAIN CALCULATOR -->
+
     <section id="calculatorScreen" hidden>
+
       <h1>Membership Calculator</h1>
+
       <h2 id="centreTitle">Leisure Centre</h2>
+
       <p class="subtitle" id="membershipSubtitle">
         Find the best value for your visits.
       </p>
 
+      <p class="message-note" id="multiSiteNote" hidden>
+        Reformer Pilates is only available through National Access membership.
+      </p>
+
+      <p class="note">
+        Reformer Pilates is only available at Wokingham Leisure Centre.
+        Reformer Pilates is available to ages 16+ only.
+      </p>
+
       <label for="age">Age Group</label>
+
       <select id="age">
         <option value="" selected disabled>Please select</option>
         <option value="junior">11-15</option>
         <option value="teen">16-18</option>
         <option value="young">19-25</option>
         <option value="adult">26-64</option>
-        <option value="senior">65+</option>
+        <option value="senior">65+ Or Corporate Discount</option>
       </select>
 
+
       <label for="activity">Activity</label>
+
       <select id="activity">
         <option value="" selected disabled>Please select</option>
         <option value="gym">Gym</option>
@@ -295,9 +320,12 @@
         <option value="aqua">Aqua Fit</option>
         <option value="health">Health Suite</option>
         <option value="hcom">HCOM Class</option>
+        <option value="reformer">Reformer Pilates</option>
       </select>
 
+
       <label for="visits">Times per week</label>
+
       <select id="visits">
         <option value="" selected disabled>Please select</option>
         <option value="1">1</option>
@@ -309,12 +337,22 @@
         <option value="7">7</option>
       </select>
 
-      <button type="button" id="calculateButton">Calculate</button>
+
+      <button type="button" id="calculateButton">
+        Calculate
+      </button>
+
 
       <div class="result" id="result" hidden aria-live="polite"></div>
 
+
       <div class="message-note" id="siteSwimmingMessage" hidden>
         Swimming is unavailable at this site. Please select a different site.
+      </div>
+
+      <div class="message-note" id="reformerMessage" hidden>
+        Reformer Pilates is only available at Wokingham Leisure Centre.
+        Please select Wokingham Leisure Centre to continue.
       </div>
 
       <div class="pool-note" id="poolNote" hidden>
@@ -322,20 +360,26 @@
         do not have swimming pools.
       </div>
 
+
       <button type="button" class="join-btn" id="joinButton">
         Join Now
       </button>
 
-      <p class="note">Or come to reception to sign up.</p>
+      <p class="note">
+        Or come to reception to sign up.
+      </p>
 
       <button type="button" class="back-btn" id="backButton">
         Change Leisure Centre
       </button>
+
     </section>
 
   </main>
 
+
   <script>
+
     // ----------------------------------
     // STATE AND ELEMENTS
     // ----------------------------------
@@ -359,7 +403,11 @@
 
     const result = document.getElementById("result");
     const poolNote = document.getElementById("poolNote");
+
     const siteSwimmingMessage = document.getElementById("siteSwimmingMessage");
+    const reformerMessage = document.getElementById("reformerMessage");
+    const multiSiteNote = document.getElementById("multiSiteNote");
+
 
     const restrictedSites = [
       "Arborfield Leisure Centre",
@@ -372,14 +420,17 @@
       "Loddon Valley Leisure Centre"
     ];
 
+
     // ----------------------------------
     // SITE SELECTION
     // ----------------------------------
 
     siteSelect.addEventListener("change", function () {
+
       selectedSite = siteSelect.value;
 
       membershipTypeSection.hidden = false;
+
       membershipTypeSelect.value = "";
       selectedMembershipType = "";
 
@@ -387,16 +438,20 @@
         sitesWithoutSiteOnly.includes(selectedSite);
 
       siteOnlyOption.disabled = siteOnlyUnavailable;
+
       siteOnlyNote.hidden = !siteOnlyUnavailable;
 
       clearCalculator();
+
     });
+
 
     // ----------------------------------
     // MEMBERSHIP TYPE SELECTION
     // ----------------------------------
 
     membershipTypeSelect.addEventListener("change", function () {
+
       const type = membershipTypeSelect.value;
 
       if (!selectedSite || !type) {
@@ -407,20 +462,27 @@
         type === "site" &&
         sitesWithoutSiteOnly.includes(selectedSite)
       ) {
+
         alert("Site Only is not available at this leisure centre.");
+
         membershipTypeSelect.value = "";
+
         return;
       }
 
       selectedMembershipType = type;
+
       openCalculator();
+
     });
+
 
     // ----------------------------------
     // OPEN CALCULATOR
     // ----------------------------------
 
     function openCalculator() {
+
       siteScreen.hidden = true;
       calculatorScreen.hidden = false;
 
@@ -436,41 +498,64 @@
         typeLabels[selectedMembershipType] +
         " — find the best value for your visits.";
 
+      // Display Multi Site information.
+
+      multiSiteNote.hidden =
+        selectedMembershipType !== "multi";
+
       configureActivities();
+
       clearCalculator();
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
     }
+
 
     // ----------------------------------
     // ACTIVITY RESTRICTIONS
     // ----------------------------------
 
     function configureActivities() {
+
       const unavailableActivities = {
-        site: ["swim", "aqua", "health", "hcom"],
-        multi: ["health"],
+
+        site: ["swim", "aqua", "health", "hcom", "reformer"],
+
+        multi: ["health", "reformer"],
+
         national: []
+
       };
 
-      const restricted = unavailableActivities[selectedMembershipType] || [];
+      const restricted =
+        unavailableActivities[selectedMembershipType] || [];
 
       Array.from(activitySelect.options).forEach(function (option) {
+
         if (!option.value) return;
 
         const unavailable = restricted.includes(option.value);
+
         option.hidden = unavailable;
         option.disabled = unavailable;
+
       });
 
       activitySelect.value = "";
+
     }
+
 
     // ----------------------------------
     // RESET RESULTS
     // ----------------------------------
 
     function clearCalculator() {
+
       ageSelect.value = "";
       activitySelect.value = "";
       visitsSelect.value = "";
@@ -480,290 +565,500 @@
 
       poolNote.hidden = true;
       siteSwimmingMessage.hidden = true;
+      reformerMessage.hidden = true;
+
     }
+
 
     // ----------------------------------
     // PREMIUM+ PRICING
     // ----------------------------------
 
     function getPremiumPlus(age) {
+
       if (age === "teen" || age === "young") {
+
         return {
           name: "Premium+ 16-25",
           price: 56
         };
+
       }
 
       if (age === "adult") {
+
         return {
           name: "Premium+",
           price: 75
         };
+
       }
 
       if (age === "senior") {
+
         return {
           name: "Concession Premium+",
           price: 63.50
         };
+
       }
 
       // No junior Premium+ price was supplied.
+
       return null;
+
     }
+
 
     // ----------------------------------
     // CALCULATE MEMBERSHIP
     // ----------------------------------
 
     function calculate() {
+
       const age = ageSelect.value;
       const activity = activitySelect.value;
       const visitsValue = visitsSelect.value;
 
       result.hidden = true;
       result.innerHTML = "";
+
       poolNote.hidden = true;
       siteSwimmingMessage.hidden = true;
+      reformerMessage.hidden = true;
+
 
       if (!age || !activity || !visitsValue) {
+
         alert("Please select all options before calculating.");
+
         return;
+
       }
 
-      // Enforce Site Only restrictions.
+
+      // ----------------------------------
+      // REFORMER PILATES RESTRICTIONS
+      // ----------------------------------
+
+      if (
+        activity === "reformer" &&
+        selectedMembershipType !== "national"
+      ) {
+
+        alert("Reformer Pilates is only available through National Access membership.");
+
+        return;
+
+      }
+
+
+      if (
+        activity === "reformer" &&
+        age === "junior"
+      ) {
+
+        alert("Reformer Pilates is only available for ages 16+.");
+
+        return;
+
+      }
+
+
+      // Reformer Pilates is only available at Wokingham.
+
+      if (
+        activity === "reformer" &&
+        selectedSite !== "Wokingham Leisure Centre"
+      ) {
+
+        reformerMessage.hidden = false;
+
+        return;
+
+      }
+
+
+      // ----------------------------------
+      // EXISTING ACTIVITY RESTRICTIONS
+      // ----------------------------------
+
       if (
         selectedMembershipType === "site" &&
         ["swim", "aqua", "health", "hcom"].includes(activity)
       ) {
+
         alert("This activity is not available with Site Only membership.");
+
         return;
+
       }
 
-      // Multi Site does not include Health Suite.
+
       if (
         selectedMembershipType === "multi" &&
         activity === "health"
       ) {
+
         alert("Health Suite is not available with Multi Site membership.");
+
         return;
+
       }
 
+
       // Swimming is unavailable at Arborfield and Ryeish Green.
-      // Do not display any price or membership recommendation.
+
       if (
         activity === "swim" &&
         restrictedSites.includes(selectedSite)
       ) {
+
         siteSwimmingMessage.textContent =
           "Swimming is unavailable at " + selectedSite +
           ". Please select a different site.";
 
         siteSwimmingMessage.hidden = false;
+
         return;
+
       }
 
+
       const visits = parseInt(visitsValue, 10);
+
       let price = 0;
 
-      // -----------------------------
+
+      // ----------------------------------
       // PAY AS YOU GO PRICING
-      // -----------------------------
+      // ----------------------------------
 
       if (activity === "swim") {
+
         if (age === "junior") {
           price = 4.85;
-        } else if (age === "senior") {
+        }
+
+        else if (age === "senior") {
           price = 4.30;
-        } else {
+        }
+
+        else {
           price = 7.05;
         }
+
       }
 
       else if (activity === "gym") {
+
         if (age === "junior" || age === "senior") {
           price = 7.70;
-        } else {
+        }
+
+        else {
           price = 13.65;
         }
+
       }
 
       else if (activity === "class") {
+
         if (age === "junior") {
+
           alert("Fitness classes are not available for this age group.");
+
           return;
+
         }
 
         price = age === "senior" ? 6.20 : 11.05;
+
       }
 
       else if (activity === "aqua") {
+
         if (age === "junior") {
+
           alert("Aqua Fit is not available for this age group.");
+
           return;
+
         }
 
         price = age === "senior" ? 6.20 : 9.55;
+
       }
 
       else if (activity === "health") {
+
         if (age === "junior") {
+
           alert("Health Suite is only available for ages 16+.");
+
           return;
+
         }
 
         price = 25;
+
       }
 
       else if (activity === "hcom") {
+
         if (age === "junior" || age === "teen") {
+
           alert("HCOM Classes are only available for ages 19+.");
+
           return;
+
         }
 
         price = 7.20;
+
       }
 
+      // REFORMER PILATES PAY AS YOU GO
+
+      else if (activity === "reformer") {
+
+        // £20 per session.
+
+        price = 20;
+
+      }
+
+
       // Monthly PAYG cost: four weeks per month.
+
       const monthly = price * visits * 4;
 
-      // -----------------------------
+
+      // ----------------------------------
       // DEFAULT MEMBERSHIPS
-      // -----------------------------
+      // ----------------------------------
 
       let membership = 60;
       let name = "Premium Membership";
 
       if (age === "senior") {
+
         membership = 51;
         name = "Premium Concession Membership";
+
       }
 
       else if (age === "young") {
+
         membership = 45;
         name = "Premium 19-25 Membership";
+
       }
 
       else if (age === "teen") {
+
         membership = 35;
         name = "Premium 16-18 Membership";
+
       }
 
       else if (age === "junior") {
+
         membership = 24;
         name = "Junior 11-15 Membership";
+
       }
+
 
       let bestPrice = membership;
       let bestName = name;
+
       let joiningFee = 30;
 
-      // -----------------------------
+
+      // ----------------------------------
       // NATIONAL ACCESS RECOMMENDATIONS
-      // -----------------------------
+      // ----------------------------------
 
       if (selectedMembershipType === "national") {
 
-        if (activity === "swim") {
-          // Swim Plus has a fixed monthly price and joining fee.
-          bestPrice = 36;
-          bestName = "Swim Plus";
-          joiningFee = 20;
+        // REFORMER PILATES MEMBERSHIPS
+
+        if (activity === "reformer") {
+
+          if (age === "senior") {
+
+            bestPrice = 93.50;
+
+            bestName = "Premium Plus Reformer Concession";
+
+          }
+
+          else if (
+            age === "teen" ||
+            age === "young" ||
+            age === "adult"
+          ) {
+
+            bestPrice = 110;
+
+            bestName = "Premium Plus Reformer";
+
+          }
+
         }
+
+        // SWIMMING
+
+        else if (activity === "swim") {
+
+          bestPrice = 36;
+
+          bestName = "Swim Plus";
+
+          joiningFee = 20;
+
+        }
+
+        // OTHER NATIONAL ACCESS ACTIVITIES
 
         else if (
           ["gym", "class", "aqua", "health"].includes(activity)
         ) {
+
           const premiumPlus = getPremiumPlus(age);
 
           if (premiumPlus) {
+
             bestPrice = premiumPlus.price;
+
             bestName = premiumPlus.name;
-          } else {
-            // Do not invent a junior Premium+ price.
+
+          }
+
+          else {
+
             alert(
               "A Premium+ price for ages 11-15 has not been configured. " +
               "Please contact reception for the correct National Access price."
             );
+
             return;
+
           }
+
         }
+
       }
 
-      // -----------------------------
+
+      // ----------------------------------
       // NON-NATIONAL SWIM ONLY
-      // -----------------------------
+      // ----------------------------------
 
       else if (activity === "swim") {
+
         const swimOnlyPrice = 30;
 
         if (swimOnlyPrice < bestPrice) {
+
           bestPrice = swimOnlyPrice;
+
           bestName = "Swim Only Membership";
+
           joiningFee = 20;
+
         }
+
       }
 
-      // -----------------------------
+
+      // ----------------------------------
       // HEALTH SUITE MEMBERSHIPS
-      // -----------------------------
+      // ----------------------------------
 
       if (
         activity === "health" &&
         selectedMembershipType !== "national"
       ) {
+
         if (age === "teen" || age === "young") {
+
           bestPrice = 56;
+
           bestName = "Premium+ 16-25";
+
         }
 
         else if (age === "adult") {
+
           bestPrice = 75;
+
           bestName = "Premium+";
+
         }
 
         else if (age === "senior") {
+
           bestPrice = 63.50;
+
           bestName = "Concession Premium+";
+
         }
+
       }
 
-      // -----------------------------
+
+      // ----------------------------------
       // HCOM MEMBERSHIP
-      // -----------------------------
+      // ----------------------------------
 
       if (activity === "hcom") {
+
         bestPrice = 42;
+
         bestName = "HCOM Membership";
+
         joiningFee = 0;
+
       }
 
-      // -----------------------------
+
+      // ----------------------------------
       // STANDARD JOINING FEES
-      // -----------------------------
+      // ----------------------------------
 
       if (
         selectedMembershipType !== "national" &&
         activity !== "hcom"
       ) {
+
         joiningFee = 30;
 
         if (bestName === "Premium 16-18 Membership") {
+
           joiningFee = 25;
+
         }
 
         else if (bestName === "Junior 11-15 Membership") {
+
           joiningFee = 20;
+
         }
 
         else if (bestName === "Swim Only Membership") {
+
           joiningFee = 20;
+
         }
+
       }
 
-      // -----------------------------
+
+      // ----------------------------------
       // SAVINGS CALCULATION
-      // -----------------------------
+      // ----------------------------------
 
       const savings = monthly - bestPrice;
 
@@ -771,13 +1066,15 @@
         ? "💡 " + bestName + " is the best option"
         : "💡 Pay as you go is cheaper";
 
-      // -----------------------------
+
+      // ----------------------------------
       // DISPLAY RESULT
-      // -----------------------------
+      // ----------------------------------
 
       result.hidden = false;
 
       result.innerHTML = `
+
         <p>
           <strong>Monthly PAYG:</strong><br>
           £${monthly.toFixed(2)}
@@ -793,22 +1090,30 @@
         </p>
 
         <p class="saving ${savings >= 0 ? "positive" : "negative"}">
+
           ${savings >= 0 ? "You Save" : "You Lose"}
+
           £${Math.abs(savings).toFixed(2)} per month
+
         </p>
 
         <p class="recommend">
           ${recommendation}
         </p>
+
       `;
+
 
       // Additional pool notice if Swim Only is recommended
       // at a site without a swimming pool.
+
       poolNote.hidden = !(
         bestName === "Swim Only Membership" &&
         restrictedSites.includes(selectedSite)
       );
+
     }
+
 
     // ----------------------------------
     // NAVIGATION AND BUTTONS
@@ -817,27 +1122,38 @@
     document.getElementById("calculateButton")
       .addEventListener("click", calculate);
 
+
     document.getElementById("backButton")
       .addEventListener("click", function () {
+
         calculatorScreen.hidden = true;
+
         siteScreen.hidden = false;
 
         clearCalculator();
+
         membershipTypeSection.hidden = false;
 
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
       });
+
 
     document.getElementById("joinButton")
       .addEventListener("click", function () {
+
         window.open(
           "https://placesleisure.gladstonego.cloud/memberships?siteId=195",
           "_blank",
           "noopener"
         );
+
       });
+
   </script>
 
 </body>
 </html>
-

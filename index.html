@@ -293,11 +293,6 @@
         Reformer Pilates is only available through National Access membership.
       </p>
 
-      <p class="note">
-        Reformer Pilates is only available at Wokingham Leisure Centre.
-        Reformer Pilates is available to ages 16+ only.
-      </p>
-
       <label for="age">Age Group</label>
 
       <select id="age">
@@ -306,7 +301,7 @@
         <option value="teen">16-18</option>
         <option value="young">19-25</option>
         <option value="adult">26-64</option>
-        <option value="senior">65+ Or Corporate Discount</option>
+        <option value="senior">65+</option>
       </select>
 
 
@@ -353,6 +348,10 @@
       <div class="message-note" id="reformerMessage" hidden>
         Reformer Pilates is only available at Wokingham Leisure Centre.
         Please select Wokingham Leisure Centre to continue.
+      </div>
+
+      <div class="message-note" id="healthMessage" hidden>
+        Only available through National Access.
       </div>
 
       <div class="pool-note" id="poolNote" hidden>
@@ -406,6 +405,7 @@
 
     const siteSwimmingMessage = document.getElementById("siteSwimmingMessage");
     const reformerMessage = document.getElementById("reformerMessage");
+    const healthMessage = document.getElementById("healthMessage");
     const multiSiteNote = document.getElementById("multiSiteNote");
 
 
@@ -498,8 +498,6 @@
         typeLabels[selectedMembershipType] +
         " — find the best value for your visits.";
 
-      // Display Multi Site information.
-
       multiSiteNote.hidden =
         selectedMembershipType !== "multi";
 
@@ -525,7 +523,10 @@
 
         site: ["swim", "aqua", "health", "hcom", "reformer"],
 
-        multi: ["health", "reformer"],
+        // Health Suite stays visible for Multi Site.
+        // It is checked when the customer calculates.
+
+        multi: ["reformer"],
 
         national: []
 
@@ -551,6 +552,46 @@
 
 
     // ----------------------------------
+    // ACTIVITY SELECTION MESSAGES
+    // ----------------------------------
+
+    activitySelect.addEventListener("change", function () {
+
+      result.hidden = true;
+      result.innerHTML = "";
+
+      reformerMessage.hidden = true;
+      healthMessage.hidden = true;
+      siteSwimmingMessage.hidden = true;
+      poolNote.hidden = true;
+
+      // Show Wokingham restriction only when Reformer
+      // Pilates is selected at another leisure centre.
+
+      if (
+        activitySelect.value === "reformer" &&
+        selectedSite !== "Wokingham Leisure Centre"
+      ) {
+
+        reformerMessage.hidden = false;
+
+      }
+
+      // Show Health Suite restriction for Multi Site.
+
+      if (
+        activitySelect.value === "health" &&
+        selectedMembershipType === "multi"
+      ) {
+
+        healthMessage.hidden = false;
+
+      }
+
+    });
+
+
+    // ----------------------------------
     // RESET RESULTS
     // ----------------------------------
 
@@ -566,6 +607,7 @@
       poolNote.hidden = true;
       siteSwimmingMessage.hidden = true;
       reformerMessage.hidden = true;
+      healthMessage.hidden = true;
 
     }
 
@@ -603,8 +645,6 @@
 
       }
 
-      // No junior Premium+ price was supplied.
-
       return null;
 
     }
@@ -626,11 +666,28 @@
       poolNote.hidden = true;
       siteSwimmingMessage.hidden = true;
       reformerMessage.hidden = true;
+      healthMessage.hidden = true;
 
 
       if (!age || !activity || !visitsValue) {
 
         alert("Please select all options before calculating.");
+
+        return;
+
+      }
+
+
+      // ----------------------------------
+      // MULTI SITE HEALTH SUITE RESTRICTION
+      // ----------------------------------
+
+      if (
+        activity === "health" &&
+        selectedMembershipType === "multi"
+      ) {
+
+        healthMessage.hidden = false;
 
         return;
 
@@ -646,7 +703,7 @@
         selectedMembershipType !== "national"
       ) {
 
-        alert("Reformer Pilates is only available through National Access membership.");
+        alert("Reformer Pilates is only available through National Access.");
 
         return;
 
@@ -689,18 +746,6 @@
       ) {
 
         alert("This activity is not available with Site Only membership.");
-
-        return;
-
-      }
-
-
-      if (
-        selectedMembershipType === "multi" &&
-        activity === "health"
-      ) {
-
-        alert("Health Suite is not available with Multi Site membership.");
 
         return;
 
@@ -822,8 +867,6 @@
 
       else if (activity === "reformer") {
 
-        // £20 per session.
-
         price = 20;
 
       }
@@ -882,7 +925,7 @@
 
       if (selectedMembershipType === "national") {
 
-        // REFORMER PILATES MEMBERSHIPS
+        // REFORMER PILATES
 
         if (activity === "reformer") {
 
@@ -894,11 +937,7 @@
 
           }
 
-          else if (
-            age === "teen" ||
-            age === "young" ||
-            age === "adult"
-          ) {
+          else {
 
             bestPrice = 110;
 
@@ -920,11 +959,9 @@
 
         }
 
-        // OTHER NATIONAL ACCESS ACTIVITIES
+        // ALL OTHER NATIONAL ACCESS ACTIVITIES
 
-        else if (
-          ["gym", "class", "aqua", "health"].includes(activity)
-        ) {
+        else {
 
           const premiumPlus = getPremiumPlus(age);
 
@@ -1013,7 +1050,13 @@
       // HCOM MEMBERSHIP
       // ----------------------------------
 
-      if (activity === "hcom") {
+      // HCOM membership applies outside National Access.
+      // National Access always recommends Premium+.
+
+      if (
+        activity === "hcom" &&
+        selectedMembershipType !== "national"
+      ) {
 
         bestPrice = 42;
 

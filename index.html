@@ -522,10 +522,10 @@
 
         site: ["swim", "aqua", "health", "hcom", "reformer"],
 
-        // Health Suite stays visible for Multi Site.
+        // Health Suite and Reformer stays visible for Multi Site.
         // It is checked when the customer calculates.
 
-        multi: ["reformer"],
+        multi: [],
 
         national: []
 
@@ -554,12 +554,21 @@
     // ACTIVITY SELECTION MESSAGES
     // ----------------------------------
 
-    activitySelect.addEventListener("change", function () {
+    if (activitySelect.value === "reformer") {
+
+  reformerMessage.textContent =
+    "Reformer Pilates is only hosted at Wokingham Leisure Centre.";
+
+  reformerMessage.hidden = false;
+
+}
 
       result.hidden = true;
       result.innerHTML = "";
 
-      reformerMessage.hidden = true;
+      reformerMessage.hidden = !(
+  activity === "reformer"
+);
       healthMessage.hidden = true;
       siteSwimmingMessage.hidden = true;
       poolNote.hidden = true;
@@ -696,17 +705,6 @@
       // ----------------------------------
       // REFORMER PILATES RESTRICTIONS
       // ----------------------------------
-
-      if (
-        activity === "reformer" &&
-        selectedMembershipType !== "national"
-      ) {
-
-        alert("Reformer Pilates is only available through National Access.");
-
-        return;
-
-      }
 
 
       if (

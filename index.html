@@ -1,61 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Membership Savings Calculator</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Membership Savings Calculator</title>
+ 
   <style>
     * {
       box-sizing: border-box;
     }
-
+ 
     body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f5f7f8;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 30px 0;
-  color: #344553;
-}
-
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 0;
+      color: #fff;
+    }
+ 
     .container {
-  background: #ffffff;
-  color: #344553;
-  padding: 32px;
-  border-radius: 24px;
-  width: 460px;
-  max-width: calc(100% - 30px);
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.08),
-    0 2px 8px rgba(0,0,0,0.04);
-  text-align: center;
-  border-top: 6px solid #FF7300;
-}
-    
-   h1 {
-  margin: 0 0 8px;
-  color: #344553;
-  font-size: 30px;
-  font-weight: 700;
-}
-
-   h2 {
-  color: #6d7780;
-  font-size: 16px;
-}
-
+      background: #fff;
+      color: #333;
+      padding: 22px;
+      border-radius: 22px;
+      width: 420px;
+      max-width: calc(100% - 30px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+ 
+    h1 {
+      margin: 0 0 6px;
+      color: #ff7e5f;
+      font-size: 27px;
+    }
+ 
+    h2 {
+      margin: 0;
+      font-size: 16px;
+      color: #888;
+      font-weight: normal;
+    }
+ 
     .subtitle {
       font-size: 14px;
       color: #777;
       margin: 12px 0 22px;
       line-height: 1.5;
     }
-
+ 
     label {
       text-align: left;
       display: block;
@@ -65,115 +62,121 @@
       font-size: 14px;
       color: #444;
     }
-
-   select {
-  width: 100%;
-  padding: 15px;
-  border-radius: 14px;
-  border: 2px solid #D7D7D7;
-  font-size: 15px;
-  font-family: inherit;
-  background: white;
-  color: #344553;
-  transition: all 0.2s ease;
-}
+ 
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      padding: 14px 42px 14px 14px;
+      border-radius: 12px;
+      border: 1px solid #e2d7d2;
+      font-size: 14px;
+      font-family: inherit;
+      color: #383838;
+      background-color: #fffaf7;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff7e5f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+ 
     select:hover {
-  border-color: #F38B2D;
-}
+      border-color: #ff9b7e;
+    }
+ 
     select:focus {
-outline: none;
-border-color: #FF7300;
-box-shadow: 0 0 0 4px rgba(255,115,0,0.15);
-}
-
+      outline: none;
+      border-color: #ff7e5f;
+      box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.17);
+    }
+ 
     select option {
       background: #fff;
       color: #333;
     }
-
+ 
     button {
-width: 100%;
-margin-top: 20px;
-padding: 15px;
-border: none;
-border-radius: 14px;
-background: #FF7300;
-color: white;
-font-size: 16px;
-font-weight: 700;
-cursor: pointer;
-transition: all .2s ease;
-}
-
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: #fff;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+ 
     button:hover {
-  background: #e96800;
-  transform: translateY(-2px);
-}
-
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    }
+ 
     button:focus-visible {
       outline: 3px solid #333;
       outline-offset: 3px;
     }
-
+ 
     .join-btn {
-  background: #344553;
-}
-    .join-btn:hover {
-  background: #283641;
-}
-
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      margin-top: 10px;
+    }
+ 
     .back-btn {
       background: #f2efed;
       color: #555;
       margin-top: 12px;
     }
-
+ 
     .result {
-  background: #fafafa;
-  border: 2px solid #e8ecef;
-  border-left: 6px solid #FF7300;
-  padding: 18px;
-  border-radius: 16px;
-  margin-top: 20px;
-}
-
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 15px;
+      background: #fff3e6;
+      overflow-wrap: anywhere;
+    }
+ 
     .result p {
       line-height: 1.5;
     }
-
+ 
     .saving {
       font-size: 22px;
       font-weight: bold;
       margin-top: 10px;
     }
-
+ 
     .positive {
-  color: #18a957;
-}
-
+      color: #1aa34a;
+    }
+ 
     .negative {
-  color: #cf3a2a;
-}
-
+      color: #d93025;
+    }
+ 
     .recommend {
       margin-top: 8px;
       font-weight: bold;
       font-size: 16px;
     }
-
+ 
     .joining-fee {
       font-size: 13px;
       color: #777;
       margin-top: -5px;
     }
-
+ 
     .note {
       margin-top: 12px;
       font-size: 13px;
       color: #777;
       line-height: 1.5;
     }
-
+ 
     .pool-note,
     .message-note {
       margin-top: 12px;
@@ -183,1001 +186,986 @@ transition: all .2s ease;
       line-height: 1.6;
       text-align: left;
     }
-
+ 
     .pool-note {
       background: #fff0e8;
       color: #a54122;
       border: 1px solid #ffd5c3;
     }
-
+ 
     .message-note {
-  background: #FFF4EA;
-  border: 1px solid #FFD3B2;
-  color: #B65712;
-  font-weight: 600;
-  border-radius: 14px;
-}
-
+      background: #fff3e6;
+      color: #a54122;
+      border: 1px solid #ffd5c3;
+      text-align: center;
+      font-weight: 600;
+    }
+ 
     .selection-heading {
       margin-top: 24px;
       font-size: 14px;
       color: #777;
     }
-
+ 
     [hidden] {
       display: none !important;
     }
-
+ 
     @media (max-width: 420px) {
       .container {
         padding: 18px;
       }
-
+ 
       h1 {
         font-size: 24px;
       }
     }
-  </style>
+</style>
 </head>
-
+ 
 <body>
-
+ 
   <main class="container">
-<div class="brand-bar"></div>
-    .brand-bar {
-  height: 8px;
-  background: linear-gradient(
-    90deg,
-    #FF7300,
-    #F38B2D
-  );
-  border-radius: 20px;
-  margin-bottom: 24px;
-    
-}
+ 
     <!-- STEP 1: SELECT A LEISURE CENTRE -->
-
+ 
     <section id="siteScreen">
-
+ 
       <h1>Membership Calculator</h1>
-      <h2>Choose Your Leisure Centre</h2>
-
+<h2>Choose Your Leisure Centre</h2>
+ 
       <p class="subtitle">
         Select your preferred leisure centre to get started.
-      </p>
-
+</p>
+ 
       <label for="site">Leisure Centre</label>
-
+ 
       <select id="site">
-        <option value="" selected disabled>Please select a site</option>
-        <option value="Bulmershe Leisure Centre">Bulmershe Leisure Centre</option>
-        <option value="Wokingham Leisure Centre">Wokingham Leisure Centre</option>
-        <option value="Loddon Valley Leisure Centre">Loddon Valley Leisure Centre</option>
-        <option value="Arborfield Leisure Centre">Arborfield Leisure Centre</option>
-        <option value="Ryeish Green Leisure Centre">Ryeish Green Leisure Centre</option>
-      </select>
-
+<option value="" selected disabled>Please select a site</option>
+<option value="Bulmershe Leisure Centre">Bulmershe Leisure Centre</option>
+<option value="Wokingham Leisure Centre">Wokingham Leisure Centre</option>
+<option value="Loddon Valley Leisure Centre">Loddon Valley Leisure Centre</option>
+<option value="Arborfield Leisure Centre">Arborfield Leisure Centre</option>
+<option value="Ryeish Green Leisure Centre">Ryeish Green Leisure Centre</option>
+</select>
+ 
       <!-- STEP 2: SELECT MEMBERSHIP TYPE -->
-
+ 
       <div id="membershipTypeSection" hidden>
-
+ 
         <p class="selection-heading">
           Now choose your membership type.
-        </p>
-
+</p>
+ 
         <label for="membershipType">Membership Type</label>
-
+ 
         <select id="membershipType">
-          <option value="" selected disabled>Please select membership type</option>
-          <option value="site" id="siteOnlyOption">Site Only</option>
-          <option value="multi">Multi Site</option>
-          <option value="national">National Access</option>
-        </select>
-
+<option value="" selected disabled>Please select membership type</option>
+<option value="site" id="siteOnlyOption">Site Only</option>
+<option value="multi">Multi Site</option>
+<option value="national">National Access</option>
+</select>
+ 
         <p class="note" id="siteOnlyNote" hidden>
           Site Only is not available at this leisure centre.
           Please choose Multi Site or National Access.
-        </p>
-
+</p>
+ 
       </div>
-
+ 
     </section>
-
-
+ 
+ 
     <!-- MAIN CALCULATOR -->
-
+ 
     <section id="calculatorScreen" hidden>
-
+ 
       <h1>Membership Calculator</h1>
-
+ 
       <h2 id="centreTitle">Leisure Centre</h2>
-
+ 
       <p class="subtitle" id="membershipSubtitle">
         Find the best value for your visits.
-      </p>
-     
-      <label for="age">Age Group</label>
-
+</p>
+<label for="age">Age Group</label>
+ 
       <select id="age">
-        <option value="" selected disabled>Please select</option>
-        <option value="junior">11-15</option>
-        <option value="teen">16-18</option>
-        <option value="young">19-25</option>
-        <option value="adult">26-64</option>
-        <option value="senior">65+</option>
-      </select>
-
-
+<option value="" selected disabled>Please select</option>
+<option value="junior">11-15</option>
+<option value="teen">16-18</option>
+<option value="young">19-25</option>
+<option value="adult">26-64</option>
+<option value="senior">65+</option>
+</select>
+ 
+ 
       <label for="activity">Activity</label>
-
+ 
       <select id="activity">
-        <option value="" selected disabled>Please select</option>
-        <option value="gym">Gym</option>
-        <option value="class">Fitness Classes</option>
-        <option value="swim">Swimming</option>
-        <option value="aqua">Aqua Fit</option>
-        <option value="health">Health Suite</option>
-        <option value="hcom">HCOM Class</option>
-        <option value="reformer">Reformer Pilates</option>
-      </select>
-
-
+<option value="" selected disabled>Please select</option>
+<option value="gym">Gym</option>
+<option value="class">Fitness Classes</option>
+<option value="swim">Swimming</option>
+<option value="aqua">Aqua Fit</option>
+<option value="health">Health Suite</option>
+<option value="hcom">HCOM Class</option>
+<option value="reformer">Reformer Pilates</option>
+</select>
+ 
+ 
       <label for="visits">Times per week</label>
-
+ 
       <select id="visits">
-        <option value="" selected disabled>Please select</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-      </select>
-
-
+<option value="" selected disabled>Please select</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+</select>
+ 
+ 
       <button type="button" id="calculateButton">
         Calculate
-      </button>
-
-
+</button>
+ 
+ 
       <div class="result" id="result" hidden aria-live="polite"></div>
-
-
+ 
+ 
       <div class="message-note" id="siteSwimmingMessage" hidden>
         Swimming is unavailable at this site. Please select a different site.
-      </div>
-
+</div>
+ 
       <div class="message-note" id="reformerMessage" hidden>
         Reformer Pilates is only hosted at Wokingham Leisure Centre.
-      </div>
-
+</div>
+ 
       <div class="message-note" id="healthMessage" hidden>
         Only available through National Access.
-      </div>
-
+</div>
+ 
       <div class="pool-note" id="poolNote" hidden>
         Please note: Arborfield Leisure Centre and Ryeish Green Leisure Centre
         do not have swimming pools.
-      </div>
-
-
+</div>
+ 
+ 
       <button type="button" class="join-btn" id="joinButton">
         Join Now
-      </button>
-
+</button>
+ 
       <p class="note">
         Or come to reception to sign up.
-      </p>
-
+</p>
+ 
       <button type="button" class="back-btn" id="backButton">
         Change Leisure Centre
-      </button>
-
+</button>
+ 
     </section>
-
+ 
   </main>
-
-
+ 
+ 
   <script>
-
+ 
     // ----------------------------------
     // STATE AND ELEMENTS
     // ----------------------------------
-
+ 
     let selectedSite = "";
     let selectedMembershipType = "";
-
+ 
     const siteScreen = document.getElementById("siteScreen");
     const calculatorScreen = document.getElementById("calculatorScreen");
-
+ 
     const siteSelect = document.getElementById("site");
     const membershipTypeSelect = document.getElementById("membershipType");
     const membershipTypeSection = document.getElementById("membershipTypeSection");
-
+ 
     const siteOnlyOption = document.getElementById("siteOnlyOption");
     const siteOnlyNote = document.getElementById("siteOnlyNote");
-
+ 
     const ageSelect = document.getElementById("age");
     const activitySelect = document.getElementById("activity");
     const visitsSelect = document.getElementById("visits");
-
+ 
     const result = document.getElementById("result");
     const poolNote = document.getElementById("poolNote");
-
+ 
     const siteSwimmingMessage = document.getElementById("siteSwimmingMessage");
     const reformerMessage = document.getElementById("reformerMessage");
     const healthMessage = document.getElementById("healthMessage");
-
-
+ 
+ 
     const restrictedSites = [
       "Arborfield Leisure Centre",
       "Ryeish Green Leisure Centre"
     ];
-
+ 
     const sitesWithoutSiteOnly = [
       "Bulmershe Leisure Centre",
       "Wokingham Leisure Centre",
       "Loddon Valley Leisure Centre"
     ];
-
-
+ 
+ 
     // ----------------------------------
     // SITE SELECTION
     // ----------------------------------
-
+ 
     siteSelect.addEventListener("change", function () {
-
+ 
       selectedSite = siteSelect.value;
-
+ 
       membershipTypeSection.hidden = false;
-
+ 
       membershipTypeSelect.value = "";
       selectedMembershipType = "";
-
+ 
       const siteOnlyUnavailable =
         sitesWithoutSiteOnly.includes(selectedSite);
-
+ 
       siteOnlyOption.disabled = siteOnlyUnavailable;
-
+ 
       siteOnlyNote.hidden = !siteOnlyUnavailable;
-
+ 
       clearCalculator();
-
+ 
     });
-
-
+ 
+ 
     // ----------------------------------
     // MEMBERSHIP TYPE SELECTION
     // ----------------------------------
-
+ 
     membershipTypeSelect.addEventListener("change", function () {
-
+ 
       const type = membershipTypeSelect.value;
-
+ 
       if (!selectedSite || !type) {
         return;
       }
-
+ 
       if (
         type === "site" &&
         sitesWithoutSiteOnly.includes(selectedSite)
       ) {
-
+ 
         alert("Site Only is not available at this leisure centre.");
-
+ 
         membershipTypeSelect.value = "";
-
+ 
         return;
       }
-
+ 
       selectedMembershipType = type;
-
+ 
       openCalculator();
-
+ 
     });
-
-
+ 
+ 
     // ----------------------------------
     // OPEN CALCULATOR
     // ----------------------------------
-
+ 
     function openCalculator() {
-
+ 
       siteScreen.hidden = true;
       calculatorScreen.hidden = false;
-
+ 
       document.getElementById("centreTitle").textContent = selectedSite;
-
+ 
       const typeLabels = {
         site: "Site Only Membership",
         multi: "Multi Site Membership",
         national: "National Access Membership"
       };
-
+ 
       document.getElementById("membershipSubtitle").textContent =
         typeLabels[selectedMembershipType] +
         " — find the best value for your visits.";
-
+ 
      // No longer required
-
+ 
       configureActivities();
-
+ 
       clearCalculator();
-
+ 
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
-
+ 
     }
-
-
+ 
+ 
     // ----------------------------------
     // ACTIVITY RESTRICTIONS
     // ----------------------------------
-
+ 
     function configureActivities() {
-
+ 
       const unavailableActivities = {
-
+ 
         site: ["swim", "aqua", "health", "hcom", "reformer"],
-
+ 
         // Health Suite and Reformer stays visible for Multi Site.
         // It is checked when the customer calculates.
-
+ 
         multi: [],
-
+ 
         national: []
-
+ 
       };
-
+ 
       const restricted =
         unavailableActivities[selectedMembershipType] || [];
-
+ 
       Array.from(activitySelect.options).forEach(function (option) {
-
+ 
         if (!option.value) return;
-
+ 
         const unavailable = restricted.includes(option.value);
-
+ 
         option.hidden = unavailable;
         option.disabled = unavailable;
-
+ 
       });
-
+ 
       activitySelect.value = "";
-
+ 
     }
-
-
+ 
+ 
 // ----------------------------------
 // ACTIVITY SELECTION MESSAGES
 // ----------------------------------
-
+ 
 activitySelect.addEventListener("change", function () {
-
+ 
   result.hidden = true;
   result.innerHTML = "";
-
+ 
   reformerMessage.hidden = true;
   healthMessage.hidden = true;
   siteSwimmingMessage.hidden = true;
   poolNote.hidden = true;
-
+ 
   // Reformer Pilates message
-
+ 
   if (
     activitySelect.value === "reformer" &&
     selectedMembershipType === "multi"
   ) {
-
+ 
     reformerMessage.textContent =
       "Reformer Pilates is only hosted at Wokingham Leisure Centre and Naional Access.";
-
+ 
     reformerMessage.hidden = false;
-
+ 
   }
-
+ 
   // Health Suite message
-
+ 
   if (
     activitySelect.value === "health" &&
     selectedMembershipType === "multi"
   ) {
-
+ 
     healthMessage.hidden = false;
-
+ 
   }
-
+ 
 });
-
-
+ 
+ 
     // ----------------------------------
     // RESET RESULTS
     // ----------------------------------
-
+ 
     function clearCalculator() {
-
+ 
       ageSelect.value = "";
       activitySelect.value = "";
       visitsSelect.value = "";
-
+ 
       result.hidden = true;
       result.innerHTML = "";
-
+ 
       poolNote.hidden = true;
       siteSwimmingMessage.hidden = true;
       reformerMessage.hidden = true;
       healthMessage.hidden = true;
-
+ 
     }
-
-
+ 
+ 
     // ----------------------------------
     // PREMIUM+ PRICING
     // ----------------------------------
-
+ 
     function getPremiumPlus(age) {
-
+ 
       if (age === "teen" || age === "young") {
-
+ 
         return {
           name: "Premium+ 16-25",
           price: 56
         };
-
+ 
       }
-
+ 
       if (age === "adult") {
-
+ 
         return {
           name: "Premium+",
           price: 75
         };
-
+ 
       }
-
+ 
       if (age === "senior") {
-
+ 
         return {
           name: "Concession Premium+",
           price: 63.50
         };
-
+ 
       }
-
+ 
       return null;
-
+ 
     }
-
-
+ 
+ 
     // ----------------------------------
     // CALCULATE MEMBERSHIP
     // ----------------------------------
-
+ 
     function calculate() {
-
+ 
       const age = ageSelect.value;
       const activity = activitySelect.value;
       const visitsValue = visitsSelect.value;
-
+ 
       result.hidden = true;
       result.innerHTML = "";
-
+ 
       poolNote.hidden = true;
       siteSwimmingMessage.hidden = true;
       reformerMessage.hidden = true;
       healthMessage.hidden = true;
-
-
+ 
+ 
    if (activity === "reformer") {
- 
 reformerMessage.textContent =
 "Reformer Pilates is only hosted at Wokingham Leisure Centre and is available through National Access membership only.";
- 
 reformerMessage.hidden = false;
- 
 }
-
-
+ 
+ 
       // ----------------------------------
       // MULTI SITE HEALTH SUITE RESTRICTION
       // ----------------------------------
-
+ 
       if (
         activity === "health" &&
         selectedMembershipType === "multi"
       ) {
-
+ 
         healthMessage.hidden = false;
-
+ 
         return;
-
+ 
       }
-
-
+ 
+ 
       // ----------------------------------
       // REFORMER PILATES RESTRICTIONS
       // ----------------------------------
-
-
+ 
+ 
       if (
         activity === "reformer" &&
         age === "junior"
       ) {
-
+ 
         alert("Reformer Pilates is only available for ages 16+.");
-
+ 
         return;
-
+ 
       }
-
-
+ 
+ 
       // Reformer Pilates is only available at Wokingham.
-
-
+ 
+ 
       // ----------------------------------
       // EXISTING ACTIVITY RESTRICTIONS
       // ----------------------------------
-
+ 
       if (
         selectedMembershipType === "site" &&
         ["swim", "aqua", "health", "hcom"].includes(activity)
       ) {
-
+ 
         alert("This activity is not available with Site Only membership.");
-
+ 
         return;
-
+ 
       }
-
-
+ 
+ 
       // Swimming is unavailable at Arborfield and Ryeish Green.
-
+ 
       if (
         activity === "swim" &&
         restrictedSites.includes(selectedSite)
       ) {
-
+ 
         siteSwimmingMessage.textContent =
           "Swimming is unavailable at " + selectedSite +
           ". Please select a different site.";
-
+ 
         siteSwimmingMessage.hidden = false;
-
+ 
         return;
-
+ 
       }
-
-
+ 
+ 
       const visits = parseInt(visitsValue, 10);
-
+ 
       let price = 0;
-
-
+ 
+ 
       // ----------------------------------
       // PAY AS YOU GO PRICING
       // ----------------------------------
-
+ 
       if (activity === "swim") {
-
+ 
         if (age === "junior") {
           price = 4.85;
         }
-
+ 
         else if (age === "senior") {
           price = 4.30;
         }
-
+ 
         else {
           price = 7.05;
         }
-
+ 
       }
-
+ 
       else if (activity === "gym") {
-
+ 
         if (age === "junior" || age === "senior") {
           price = 7.70;
         }
-
+ 
         else {
           price = 13.65;
         }
-
+ 
       }
-
+ 
       else if (activity === "class") {
-
+ 
         if (age === "junior") {
-
+ 
           alert("Fitness classes are not available for this age group.");
-
+ 
           return;
-
+ 
         }
-
+ 
         price = age === "senior" ? 6.20 : 11.05;
-
+ 
       }
-
+ 
       else if (activity === "aqua") {
-
+ 
         if (age === "junior") {
-
+ 
           alert("Aqua Fit is not available for this age group.");
-
+ 
           return;
-
+ 
         }
-
+ 
         price = age === "senior" ? 6.20 : 9.55;
-
+ 
       }
-
+ 
       else if (activity === "health") {
-
+ 
         if (age === "junior") {
-
+ 
           alert("Health Suite is only available for ages 16+.");
-
+ 
           return;
-
+ 
         }
-
+ 
         price = 25;
-
+ 
       }
-
+ 
       else if (activity === "hcom") {
-
+ 
         if (age === "junior" || age === "teen") {
-
+ 
           alert("HCOM Classes are only available for ages 19+.");
-
+ 
           return;
-
+ 
         }
-
+ 
         price = 7.20;
-
+ 
       }
-
+ 
       // REFORMER PILATES PAY AS YOU GO
-
+ 
       else if (activity === "reformer") {
-
+ 
         price = 20;
-
+ 
       }
-
-
+ 
+ 
       // Monthly PAYG cost: four weeks per month.
-
+ 
       const monthly = price * visits * 4;
-
-
+ 
+ 
       // ----------------------------------
       // DEFAULT MEMBERSHIPS
       // ----------------------------------
-
+ 
       let membership = 60;
       let name = "Premium Membership";
-
+ 
       if (age === "senior") {
-
+ 
         membership = 51;
         name = "Premium Concession Membership";
-
+ 
       }
-
+ 
       else if (age === "young") {
-
+ 
         membership = 45;
         name = "Premium 19-25 Membership";
-
+ 
       }
-
+ 
       else if (age === "teen") {
-
+ 
         membership = 35;
         name = "Premium 16-18 Membership";
-
+ 
       }
-
+ 
       else if (age === "junior") {
-
+ 
         membership = 24;
         name = "Junior 11-15 Membership";
-
+ 
       }
-
-
+ 
+ 
       let bestPrice = membership;
       let bestName = name;
-
+ 
       let joiningFee = 30;
-
-
+ 
+ 
       // ----------------------------------
       // NATIONAL ACCESS RECOMMENDATIONS
       // ----------------------------------
-
+ 
       if (selectedMembershipType === "national") {
-
+ 
         // REFORMER PILATES
-
+ 
         if (activity === "reformer") {
-
+ 
           if (age === "senior") {
-
+ 
             bestPrice = 93.50;
-
+ 
             bestName = "Premium Plus Reformer Concession";
-
+ 
           }
-
+ 
           else {
-
+ 
             bestPrice = 110;
-
+ 
             bestName = "Premium Plus Reformer";
-
+ 
           }
-
+ 
         }
-
+ 
         // SWIMMING
-
+ 
         else if (activity === "swim") {
-
+ 
           bestPrice = 36;
-
+ 
           bestName = "Swim Plus";
-
+ 
           joiningFee = 20;
-
+ 
         }
-
+ 
         // ALL OTHER NATIONAL ACCESS ACTIVITIES
-
+ 
         else {
-
+ 
           const premiumPlus = getPremiumPlus(age);
-
+ 
           if (premiumPlus) {
-
+ 
             bestPrice = premiumPlus.price;
-
+ 
             bestName = premiumPlus.name;
-
+ 
           }
-
+ 
           else {
-
+ 
             alert(
               "A Premium+ price for ages 11-15 has not been configured. " +
               "Please contact reception for the correct National Access price."
             );
-
+ 
             return;
-
+ 
           }
-
+ 
         }
-
+ 
       }
-
-
+ 
+ 
       // ----------------------------------
       // NON-NATIONAL SWIM ONLY
       // ----------------------------------
-
+ 
       else if (activity === "swim") {
-
+ 
         const swimOnlyPrice = 30;
-
+ 
         if (swimOnlyPrice < bestPrice) {
-
+ 
           bestPrice = swimOnlyPrice;
-
+ 
           bestName = "Swim Only Membership";
-
+ 
           joiningFee = 20;
-
+ 
         }
-
+ 
       }
-
-
+ 
+ 
       // ----------------------------------
       // HEALTH SUITE MEMBERSHIPS
       // ----------------------------------
-
+ 
       if (
         activity === "health" &&
         selectedMembershipType !== "national"
       ) {
-
+ 
         if (age === "teen" || age === "young") {
-
+ 
           bestPrice = 56;
-
+ 
           bestName = "Premium+ 16-25";
-
+ 
         }
-
+ 
         else if (age === "adult") {
-
+ 
           bestPrice = 75;
-
+ 
           bestName = "Premium+";
-
+ 
         }
-
+ 
         else if (age === "senior") {
-
+ 
           bestPrice = 63.50;
-
+ 
           bestName = "Concession Premium+";
-
+ 
         }
-
+ 
       }
-
-
+ 
+ 
       // ----------------------------------
       // HCOM MEMBERSHIP
       // ----------------------------------
-
+ 
       // HCOM membership applies outside National Access.
       // National Access always recommends Premium+.
-
+ 
       if (
         activity === "hcom" &&
         selectedMembershipType !== "national"
       ) {
-
+ 
         bestPrice = 42;
-
+ 
         bestName = "HCOM Membership";
-
+ 
         joiningFee = 0;
-
+ 
       }
-
-
+ 
+ 
       // ----------------------------------
       // STANDARD JOINING FEES
       // ----------------------------------
-
+ 
       if (
         selectedMembershipType !== "national" &&
         activity !== "hcom"
       ) {
-
+ 
         joiningFee = 30;
-
+ 
         if (bestName === "Premium 16-18 Membership") {
-
+ 
           joiningFee = 25;
-
+ 
         }
-
+ 
         else if (bestName === "Junior 11-15 Membership") {
-
+ 
           joiningFee = 20;
-
+ 
         }
-
+ 
         else if (bestName === "Swim Only Membership") {
-
+ 
           joiningFee = 20;
-
+ 
         }
-
+ 
       }
-
-
+ 
+ 
       // ----------------------------------
       // SAVINGS CALCULATION
       // ----------------------------------
-
+ 
       const savings = monthly - bestPrice;
-
+ 
       const recommendation = savings > 0
         ? "💡 " + bestName + " is the best option"
         : "💡 Pay as you go is cheaper";
-
-
+ 
+ 
       // ----------------------------------
       // DISPLAY RESULT
       // ----------------------------------
-
+ 
       result.hidden = false;
-
+ 
       result.innerHTML = `
-
+ 
         <p>
-          <strong>Monthly PAYG:</strong><br>
+<strong>Monthly PAYG:</strong><br>
           £${monthly.toFixed(2)}
-        </p>
-
+</p>
+ 
         <p>
-          <strong>${bestName}:</strong><br>
+<strong>${bestName}:</strong><br>
           £${bestPrice.toFixed(2)} per month
-        </p>
-
+</p>
+ 
         <p class="joining-fee">
           One-time joining fee: £${joiningFee.toFixed(2)}
-        </p>
-
+</p>
+ 
         <p class="saving ${savings >= 0 ? "positive" : "negative"}">
-
+ 
           ${savings >= 0 ? "You Save" : "You Lose"}
-
+ 
           £${Math.abs(savings).toFixed(2)} per month
-
+ 
         </p>
-
+ 
         <p class="recommend">
           ${recommendation}
-        </p>
-
+</p>
+ 
       `;
-
-
+ 
+ 
       // Additional pool notice if Swim Only is recommended
       // at a site without a swimming pool.
-
+ 
       poolNote.hidden = !(
         bestName === "Swim Only Membership" &&
         restrictedSites.includes(selectedSite)
       );
-
+ 
     }
-
-
+ 
+ 
     // ----------------------------------
     // NAVIGATION AND BUTTONS
     // ----------------------------------
-
+ 
     document.getElementById("calculateButton")
       .addEventListener("click", calculate);
-
-
+ 
+ 
     document.getElementById("backButton")
       .addEventListener("click", function () {
-
+ 
         calculatorScreen.hidden = true;
-
+ 
         siteScreen.hidden = false;
-
+ 
         clearCalculator();
-
+ 
         membershipTypeSection.hidden = false;
-
+ 
         window.scrollTo({
           top: 0,
           behavior: "smooth"
         });
-
+ 
       });
-
-
+ 
+ 
     document.getElementById("joinButton")
       .addEventListener("click", function () {
-
+ 
         window.open(
           "https://placesleisure.gladstonego.cloud/memberships?siteId=195",
           "_blank",
           "noopener"
         );
-
+ 
       });
-
+ 
   </script>
-
+ 
 </body>
 </html>

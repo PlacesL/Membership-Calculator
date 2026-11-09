@@ -12,40 +12,42 @@
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px 0;
-      color: #fff;
-    }
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f7f8;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px 0;
+  color: #344553;
+}
 
     .container {
-      background: #fff;
-      color: #333;
-      padding: 22px;
-      border-radius: 22px;
-      width: 420px;
-      max-width: calc(100% - 30px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-      text-align: center;
-    }
+  background: #ffffff;
+  color: #344553;
+  padding: 32px;
+  border-radius: 24px;
+  width: 460px;
+  max-width: calc(100% - 30px);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08),
+    0 2px 8px rgba(0,0,0,0.04);
+  text-align: center;
+  border-top: 6px solid #FF7300;
+}
+    
+   h1 {
+  margin: 0 0 8px;
+  color: #344553;
+  font-size: 30px;
+  font-weight: 700;
+}
 
-    h1 {
-      margin: 0 0 6px;
-      color: #ff7e5f;
-      font-size: 27px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 16px;
-      color: #888;
-      font-weight: normal;
-    }
+   h2 {
+  color: #6d7780;
+  font-size: 16px;
+}
 
     .subtitle {
       font-size: 14px;
@@ -64,33 +66,25 @@
       color: #444;
     }
 
-    select {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 100%;
-      padding: 14px 42px 14px 14px;
-      border-radius: 12px;
-      border: 1px solid #e2d7d2;
-      font-size: 14px;
-      font-family: inherit;
-      color: #383838;
-      background-color: #fffaf7;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23ff7e5f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
+   select {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: 2px solid #D7D7D7;
+  font-size: 15px;
+  font-family: inherit;
+  background: white;
+  color: #344553;
+  transition: all 0.2s ease;
+}
     select:hover {
-      border-color: #ff9b7e;
-    }
-
+  border-color: #F38B2D;
+}
     select:focus {
-      outline: none;
-      border-color: #ff7e5f;
-      box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.17);
-    }
+outline: none;
+border-color: #FF7300;
+box-shadow: 0 0 0 4px rgba(255,115,0,0.15);
+}
 
     select option {
       background: #fff;
@@ -98,24 +92,23 @@
     }
 
     button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-      color: #fff;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+width: 100%;
+margin-top: 20px;
+padding: 15px;
+border: none;
+border-radius: 14px;
+background: #FF7300;
+color: white;
+font-size: 16px;
+font-weight: 700;
+cursor: pointer;
+transition: all .2s ease;
+}
 
     button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-    }
+  background: #e96800;
+  transform: translateY(-2px);
+}
 
     button:focus-visible {
       outline: 3px solid #333;
@@ -123,9 +116,11 @@
     }
 
     .join-btn {
-      background: linear-gradient(135deg, #ff512f, #dd2476);
-      margin-top: 10px;
-    }
+  background: #344553;
+}
+    .join-btn:hover {
+  background: #283641;
+}
 
     .back-btn {
       background: #f2efed;
@@ -134,12 +129,13 @@
     }
 
     .result {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 15px;
-      background: #fff3e6;
-      overflow-wrap: anywhere;
-    }
+  background: #fafafa;
+  border: 2px solid #e8ecef;
+  border-left: 6px solid #FF7300;
+  padding: 18px;
+  border-radius: 16px;
+  margin-top: 20px;
+}
 
     .result p {
       line-height: 1.5;
@@ -152,12 +148,12 @@
     }
 
     .positive {
-      color: #1aa34a;
-    }
+  color: #18a957;
+}
 
     .negative {
-      color: #d93025;
-    }
+  color: #cf3a2a;
+}
 
     .recommend {
       margin-top: 8px;
@@ -195,12 +191,12 @@
     }
 
     .message-note {
-      background: #fff3e6;
-      color: #a54122;
-      border: 1px solid #ffd5c3;
-      text-align: center;
-      font-weight: 600;
-    }
+  background: #FFF4EA;
+  border: 1px solid #FFD3B2;
+  color: #B65712;
+  font-weight: 600;
+  border-radius: 14px;
+}
 
     .selection-heading {
       margin-top: 24px;
@@ -227,7 +223,18 @@
 <body>
 
   <main class="container">
-
+<div class="brand-bar"></div>
+    .brand-bar {
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    #FF7300,
+    #F38B2D
+  );
+  border-radius: 20px;
+  margin-bottom: 24px;
+    
+}
     <!-- STEP 1: SELECT A LEISURE CENTRE -->
 
     <section id="siteScreen">

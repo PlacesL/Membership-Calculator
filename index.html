@@ -346,8 +346,7 @@
       </div>
 
       <div class="message-note" id="reformerMessage" hidden>
-        Reformer Pilates is only available at Wokingham Leisure Centre.
-        Please select Wokingham Leisure Centre to continue.
+        Reformer Pilates is only hosted at Wokingham Leisure Centre.
       </div>
 
       <div class="message-note" id="healthMessage" hidden>
@@ -568,14 +567,14 @@
       // Show Wokingham restriction only when Reformer
       // Pilates is selected at another leisure centre.
 
-      if (
-        activitySelect.value === "reformer" &&
-        selectedSite !== "Wokingham Leisure Centre"
-      ) {
+     if (
+  activitySelect.value === "reformer"
+) {
+  reformerMessage.textContent =
+    "Reformer Pilates is only hosted at Wokingham Leisure Centre.";
 
-        reformerMessage.hidden = false;
-
-      }
+  reformerMessage.hidden = false;
+}
 
       // Show Health Suite restriction for Multi Site.
 
@@ -723,17 +722,6 @@
 
 
       // Reformer Pilates is only available at Wokingham.
-
-      if (
-        activity === "reformer" &&
-        selectedSite !== "Wokingham Leisure Centre"
-      ) {
-
-        reformerMessage.hidden = false;
-
-        return;
-
-      }
 
 
       // ----------------------------------

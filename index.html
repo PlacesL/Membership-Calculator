@@ -566,7 +566,7 @@ activitySelect.addEventListener("change", function () {
   ) {
 
     reformerMessage.textContent =
-      "Reformer Pilates is only hosted at Wokingham Leisure Centre.";
+      "Reformer Pilates is only hosted at Wokingham Leisure Centre and Naional Access.";
 
     reformerMessage.hidden = false;
 
@@ -664,13 +664,14 @@ activitySelect.addEventListener("change", function () {
       healthMessage.hidden = true;
 
 
-      if (!age || !activity || !visitsValue) {
-
-        alert("Please select all options before calculating.");
-
-        return;
-
-      }
+   if (activity === "reformer") {
+ 
+reformerMessage.textContent =
+"Reformer Pilates is only hosted at Wokingham Leisure Centre and is available through National Access membership only.";
+ 
+reformerMessage.hidden = false;
+ 
+}
 
 
       // ----------------------------------

@@ -288,11 +288,7 @@
       <p class="subtitle" id="membershipSubtitle">
         Find the best value for your visits.
       </p>
-
-      <p class="message-note" id="multiSiteNote" hidden>
-        Reformer Pilates is only available through National Access membership.
-      </p>
-
+     
       <label for="age">Age Group</label>
 
       <select id="age">
@@ -405,7 +401,6 @@
     const siteSwimmingMessage = document.getElementById("siteSwimmingMessage");
     const reformerMessage = document.getElementById("reformerMessage");
     const healthMessage = document.getElementById("healthMessage");
-    const multiSiteNote = document.getElementById("multiSiteNote");
 
 
     const restrictedSites = [
@@ -497,8 +492,7 @@
         typeLabels[selectedMembershipType] +
         " — find the best value for your visits.";
 
-      multiSiteNote.hidden =
-        selectedMembershipType !== "multi";
+     // No longer required
 
       configureActivities();
 
@@ -550,53 +544,46 @@
     }
 
 
-    // ----------------------------------
-    // ACTIVITY SELECTION MESSAGES
-    // ----------------------------------
+// ----------------------------------
+// ACTIVITY SELECTION MESSAGES
+// ----------------------------------
 
-    if (activitySelect.value === "reformer") {
+activitySelect.addEventListener("change", function () {
 
-  reformerMessage.textContent =
-    "Reformer Pilates is only hosted at Wokingham Leisure Centre.";
+  result.hidden = true;
+  result.innerHTML = "";
 
-  reformerMessage.hidden = false;
+  reformerMessage.hidden = true;
+  healthMessage.hidden = true;
+  siteSwimmingMessage.hidden = true;
+  poolNote.hidden = true;
 
-}
+  // Reformer Pilates message
 
-      result.hidden = true;
-      result.innerHTML = "";
+  if (
+    activitySelect.value === "reformer" &&
+    selectedMembershipType === "multi"
+  ) {
 
-      reformerMessage.hidden = !(
-  activity === "reformer"
-);
-      healthMessage.hidden = true;
-      siteSwimmingMessage.hidden = true;
-      poolNote.hidden = true;
+    reformerMessage.textContent =
+      "Reformer Pilates is only hosted at Wokingham Leisure Centre.";
 
-      // Show Wokingham restriction only when Reformer
-      // Pilates is selected at another leisure centre.
+    reformerMessage.hidden = false;
 
-     if (
-  activitySelect.value === "reformer"
-) {
-  reformerMessage.textContent =
-    "Reformer Pilates is only hosted at Wokingham Leisure Centre.";
+  }
 
-  reformerMessage.hidden = false;
-}
+  // Health Suite message
 
-      // Show Health Suite restriction for Multi Site.
+  if (
+    activitySelect.value === "health" &&
+    selectedMembershipType === "multi"
+  ) {
 
-      if (
-        activitySelect.value === "health" &&
-        selectedMembershipType === "multi"
-      ) {
+    healthMessage.hidden = false;
 
-        healthMessage.hidden = false;
+  }
 
-      }
-
-    });
+});
 
 
     // ----------------------------------
